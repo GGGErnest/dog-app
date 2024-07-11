@@ -32,10 +32,12 @@ describe('MemoryCache', () => {
 	})
 
 	it('remove items that expired and try to retrieve them again from the connector')
-	it('remove oldest and less used items from the cache if its limit was reached')
-	it('')
-
-	it('calling "retrive" will cache the values for the specific request if not present in the cache', () => {
-
-	})
+	it(`executes the cache clean up every ${Settings.cacheCleaningFrequency} ms`)
+	it('remove elements older than two hours from the cache if its limit was reached')
+	it('remove elements with low usage(less than 10 times) from the cache if its limit was reached')
+	it('retrives data from the connector if it does not exist in the cache')
+	it('returns the cached data')
+	it('returns empty array in case there is nothing in the cache nor could be retrieved from the connector')
+	it('returns an array for range and single requests to the cache')
+	it('calling destroy will stop the cleanUp interval execution and set to undefined the Cache')
 });
