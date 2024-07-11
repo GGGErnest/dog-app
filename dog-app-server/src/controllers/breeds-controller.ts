@@ -10,26 +10,27 @@ export class BreedController implements Controller {
 	private readonly _defaultPaginationSize = Settings.defaultPaginationSize;
 	private readonly _defaultPage = 1;
 
-	getAll(req: Request, resp: Response): void {
+	public async getAll(req: Request, resp: Response): Promise<void> {
 		const page = parseInt(req.params.page) ?? this._defaultPage;
 		const pageSize = parseInt(req.params.pageSize) ?? this._defaultPaginationSize;
-		const result = this._breedMode.getAll(page, pageSize);
+		const result = await this._breedMode.getAll(page, pageSize);
 		const response: ServerResponse<Breed> = {
 			result
 		}
 
 		resp.send(response).status(200)
 	}
-	get(req: Request, resp: Response): void {
+
+	public async get(req: Request, resp: Response): Promise<void> {
 		const breedId = req.params.id;
 
 		if (breedId === null) {
 			resp.send({ result: [], error: 'Wrong breed id' }).status(400)
 		}
 
-		const result = this._breedMode.get(breedId);
+		const result = await this._breedMode.get(breedId);
 		const response: ServerResponse<Breed> = {
-			result: [result]
+			result: result
 		}
 
 		resp.send(response).status(200)
