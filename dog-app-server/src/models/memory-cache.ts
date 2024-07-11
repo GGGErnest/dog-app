@@ -10,7 +10,7 @@ export class MemoryCache implements Cache {
 	private readonly _store = new Map<SerializedCacheKey, CachedEntity<unknown>>();
 	private readonly _cleanUpIntervalId = setInterval(() => this._cleanUpCache(), Settings.cacheCleaningFrequency);
 	private readonly _dataConnectors = new Map<string, CacheDataConnector<unknown>>()
-	private static _instance: MemoryCache;
+	private static _instance?: MemoryCache;
 	private _cacheExpiresAfterMinutes = Settings.cacheExpiresAfterMinutes;
 	private _cacheLimit = Settings.cacheLimit;
 
@@ -18,7 +18,7 @@ export class MemoryCache implements Cache {
 	private constructor() { }
 
 	public static get cache(): MemoryCache {
-		if (!this._instance) {
+		if (!MemoryCache._instance) {
 			MemoryCache._instance = new MemoryCache();
 		}
 
@@ -30,37 +30,41 @@ export class MemoryCache implements Cache {
 		const twoHoursAgo = Date.now() - 1000 * 60 * 60 * 2;
 		const lowUsageThreshold = 10;
 
-		if (this._store.size > this._cacheLimit && cachedEntity.usageCount < lowUsageThreshold && cachedEntity.lasUsed < twoHoursAgo) {
+		if (this._store.size > this._cacheLimit && (cachedEntity.usageCount < lowUsageThreshold || cachedEntity.lasUsed < twoHoursAgo)) {
 			return true;
 		}
 
 		return false;
 	}
 
-	private async _updateCache(entityKey: string, entity?: CachedEntity<unknown>): Promise<void> {
+	private async _addToCache(entityKey: string): Promise<void> {
 		const entityKeyObject: CacheKey = JSON.parse(entityKey) as CacheKey;
 		const connector = this._dataConnectors.get(entityKeyObject.entityName);
-		const cachedEntity = entity ?? this._store.get(entityKey);
-		const updatedEntities = await connector?.retrive(entityKeyObject);
-
-		// update the entities in the cache if it expired 
-		if (cachedEntity && updatedEntities) {
-			cachedEntity.entities = updatedEntities;
-			cachedEntity.expiresIn = Date.now();
-			return;
-		}
+		const toCacheEntity = await connector?.retrive(entityKeyObject);
 
 		// creates and stores a new entity in the cache
-		if (updatedEntities) {
+		if (toCacheEntity) {
 			const newCachedEntity: CachedEntity<unknown> = {
-				entities: updatedEntities,
+				entities: toCacheEntity,
 				expiresIn: calculateCacheExpirationTime(this._cacheExpiresAfterMinutes),
 				lasUsed: Date.now(),
 				usageCount: 1
 			};
 			this._store.set(entityKey, newCachedEntity)
 		}
+	}
 
+	private async _updateCache(entityKey: string, entity: CachedEntity<unknown>): Promise<void> {
+		const entityKeyObject: CacheKey = JSON.parse(entityKey) as CacheKey;
+		const connector = this._dataConnectors.get(entityKeyObject.entityName);
+		const updatedEntities = await connector?.retrive(entityKeyObject);
+
+		// update the entities in the cache if it expired 
+		if (entity && updatedEntities) {
+			entity.entities = updatedEntities;
+			entity.expiresIn = Date.now();
+			return;
+		}
 	}
 
 	private async _cleanUpCache(): Promise<void> {
@@ -80,18 +84,18 @@ export class MemoryCache implements Cache {
 		const returnValue = this._store.get(entityKey);
 
 		if (returnValue === undefined) {
-			await this._updateCache(entityKey)
+			await this._addToCache(entityKey)
 		}
 
 		return this._store.get(entityKey)?.entities as Type[] ?? [];
 	}
 
-	registerConnector<Type>(connectorId: string, connector: CacheDataConnector<Type>): void {
+	public registerConnector<Type>(connectorId: string, connector: CacheDataConnector<Type>): void {
 		this._dataConnectors.set(connectorId, connector)
 	}
 
-	destroy(): void {
+	public destroy(): void {
 		clearInterval(this._cleanUpIntervalId);
+		MemoryCache._instance = undefined;
 	}
-
 }
