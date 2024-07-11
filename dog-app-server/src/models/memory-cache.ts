@@ -11,7 +11,6 @@ export class MemoryCache implements Cache {
 	private readonly _cleanUpIntervalId = setInterval(() => this._cleanUpCache(), Settings.cacheCleaningFrequency);
 	private readonly _dataConnectors = new Map<string, CacheDataConnector<unknown>>()
 	private static _instance: MemoryCache;
-	private readonly _intervalFrequency = Settings.cacheCleaningFrequency;
 	private _cacheExpiresAfterMinutes = Settings.cacheExpiresAfterMinutes;
 	private _cacheLimit = Settings.cacheLimit;
 
