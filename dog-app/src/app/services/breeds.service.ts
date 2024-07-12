@@ -2,7 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Breed } from '../models/breed';
 import { firstValueFrom } from 'rxjs';
-import { ServerResponse } from '../types/api/types';
+import { GetAllReturValue, ServerResponse } from '../types/api/types';
+import { SortDirection } from '@angular/material/sort';
 
 @Injectable({
   providedIn: 'root'
@@ -12,8 +13,8 @@ export class BreedsService {
   private _httpClient = inject(HttpClient);
 
 
-  public async getBreeds(page = 1, size = 10): Promise<ServerResponse<Breed>> {
-    return firstValueFrom(this._httpClient.get<ServerResponse<Breed>>(`${this._baseUrl}list/all?$page={page}&size=${size}`));
+  public async getBreeds(page = 1, size = 10, sort: keyof Breed = 'breed', sortDir: SortDirection = 'desc'): Promise<ServerResponse<GetAllReturValue<Breed>>> {
+    return firstValueFrom(this._httpClient.get<ServerResponse<GetAllReturValue<Breed>>>(`${this._baseUrl}list/all?page=${page}&size=${size}&sort=${sort}&sortDir=${sortDir}`));
   }
 
   public async getBreedDetail(breedId: string): Promise<ServerResponse<Breed>> {

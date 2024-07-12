@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { BreedListComponent } from './breed-list.component';
 
 describe('BreedListComponent', () => {
@@ -10,8 +9,8 @@ describe('BreedListComponent', () => {
     await TestBed.configureTestingModule({
       imports: [BreedListComponent]
     })
-    .compileComponents();
-    
+      .compileComponents();
+
     fixture = TestBed.createComponent(BreedListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

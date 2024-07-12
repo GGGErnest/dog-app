@@ -2,10 +2,11 @@ import { ResolveFn } from '@angular/router';
 import { BreedsService } from '../breeds.service';
 import { inject } from '@angular/core';
 import { Breed } from '../../models/breed';
+import { GetAllReturValue } from '../../types/api/types';
 
-export const breedsResolver: ResolveFn<Breed[]> = async () => {
+export const breedsResolver: ResolveFn<GetAllReturValue<Breed>> = async () => {
   const breedsService = inject(BreedsService);
-  let breeds: Breed[] = [];
+  let breeds: GetAllReturValue<Breed> = { data: null, total: 0 };
   try {
     const response = await breedsService.getBreeds();
     breeds = response.result;

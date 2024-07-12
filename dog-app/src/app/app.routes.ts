@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
 import { BreedDetailComponent } from './routes/breed-detail/breed-detail.component';
-import { BreedListComponent } from './routes/breed-list/breed-list.component';
 import { HomeComponent } from './routes/home/home.component';
 import { NotFoundComponent } from './routes/not-found/not-found.component';
 import { breedsResolver } from './services/resolvers/breeds.resolver';
+import { BreedListComponent } from './routes/breed-list/breed-list.component';
 
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
