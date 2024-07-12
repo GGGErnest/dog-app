@@ -1,7 +1,7 @@
 import { MemoryCacheIdRequestkey, MemoryCacheRangeRequestKey } from '../types/interfaces/cache';
 
 export function converPageAndPageSizeToStartAndEndFormat(page: number, pageSize: number): [number, number] {
-	const start = page * pageSize - page;
+	const start = page * pageSize - pageSize;
 	const end = page * pageSize;
 	return [start, end];
 }

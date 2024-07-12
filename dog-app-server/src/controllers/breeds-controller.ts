@@ -11,9 +11,13 @@ export class BreedController implements Controller {
 	private readonly _defaultPage = 1;
 
 	public async getAll(req: Request, resp: Response): Promise<void> {
-		const page = parseInt(req.params.page) ?? this._defaultPage;
-		const pageSize = parseInt(req.params.pageSize) ?? this._defaultPaginationSize;
+		const page = req.query.page ? parseInt(req.query.page.toString()) : this._defaultPage;
+		const pageSize = req.query.size ? parseInt(req.query.size.toString()) : this._defaultPaginationSize;
 		const result = await this._breedMode.getAll(page, pageSize);
+
+		console.log('Breeds getAll', page, pageSize);
+		console.log('Breeds All endpoint hit:', result)
+
 		const response: ServerResponse<Breed> = {
 			result
 		}

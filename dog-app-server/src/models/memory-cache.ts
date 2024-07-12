@@ -17,7 +17,7 @@ export class MemoryCache implements Cache {
 	// eslint-disable-next-line @typescript-eslint/no-empty-function
 	private constructor() { }
 
-	public static get cache(): MemoryCache {
+	public static get instance(): MemoryCache {
 		if (!MemoryCache._instance) {
 			MemoryCache._instance = new MemoryCache();
 		}
