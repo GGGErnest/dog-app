@@ -1,0 +1,10 @@
+<table mat-table [dataSource]="tableDataSource" class="mat-elevation-z8">
+  <ng-container matColumnDef="breed">
+    <th mat-header-cell *matHeaderCellDef>Breed</th>
+    <td mat-cell *matCellDef="let element"> {{element.breed}} </td>
+  </ng-container>
+  <ng-container matColumnDef="subbreed">
+    <th mat-header-cell *matHeaderCellDef>Subbreed</th>
+    <td mat-cell *matCellDef="let element"> {{element.subbreed}} </td>
+  </ng-container>
+</table>
