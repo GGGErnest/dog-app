@@ -1,6 +1,6 @@
-Home challenge
+App Requirements
 
-You are tasked with creating an Angular application focused on dog breeds. The frontend communicates with a Backend for Frontend (BFF) built in Node.js or Java, serving as a proxy to the [Dog API](https://dog.ceo/dog-api/documentation/).
+Create an Angular application focused on dog breeds. The frontend communicates with a Backend for Frontend (BFF) built in Node.js or Java, serving as a proxy to the [Dog API](https://dog.ceo/dog-api/documentation/).
 
 Requirements:
 

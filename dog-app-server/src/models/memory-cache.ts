@@ -9,7 +9,7 @@ function calculateCacheExpirationTime(timeInMinutes: number | undefined): number
 export class MemoryCache implements Cache {
 	private readonly _store = new Map<SerializedCacheKey, CachedEntity<unknown>>();
 	private readonly _cleanUpIntervalId = setInterval(() => this._cleanUpCache(), Settings.cacheCleaningFrequency);
-	private readonly _dataConnectors = new Map<string, CacheDataConnector<unknown>>()
+	private readonly _dataConnectors = new Map<string, CacheDataConnector>()
 	private static _instance?: MemoryCache;
 	private _cacheExpiresAfterMinutes = Settings.cacheExpiresAfterMinutes;
 	private _cacheLimit = Settings.cacheLimit;
@@ -45,7 +45,7 @@ export class MemoryCache implements Cache {
 		// creates and stores a new entity in the cache
 		if (toCacheEntity) {
 			const newCachedEntity: CachedEntity<unknown> = {
-				entities: toCacheEntity,
+				data: toCacheEntity,
 				expiresIn: calculateCacheExpirationTime(this._cacheExpiresAfterMinutes),
 				lasUsed: Date.now(),
 				usageCount: 1
@@ -61,8 +61,8 @@ export class MemoryCache implements Cache {
 
 		// update the entities in the cache if it expired 
 		if (entity && updatedEntities) {
-			entity.entities = updatedEntities;
-			entity.expiresIn = Date.now();
+			entity.data = updatedEntities;
+			entity.expiresIn = calculateCacheExpirationTime(this._cacheExpiresAfterMinutes);
 			return;
 		}
 	}
@@ -74,23 +74,24 @@ export class MemoryCache implements Cache {
 				return;
 			}
 
-			if (value.expiresIn > this._cacheExpiresAfterMinutes) {
+			if (value.expiresIn < Date.now()) {
+				console.log('Cached item has expired', value);
 				this._updateCache(key, value);
 			}
 		});
 	}
 
-	async read<Type>(entityKey: SerializedCacheKey): Promise<Type[]> {
+	async read<Type>(entityKey: SerializedCacheKey): Promise<Type | undefined> {
 		const returnValue = this._store.get(entityKey);
 
 		if (returnValue === undefined) {
 			await this._addToCache(entityKey)
 		}
 
-		return this._store.get(entityKey)?.entities as Type[] ?? [];
+		return this._store.get(entityKey)?.data as Type;
 	}
 
-	public registerConnector<Type>(connectorId: string, connector: CacheDataConnector<Type>): void {
+	public registerConnector(connectorId: string, connector: CacheDataConnector): void {
 		this._dataConnectors.set(connectorId, connector)
 	}
 

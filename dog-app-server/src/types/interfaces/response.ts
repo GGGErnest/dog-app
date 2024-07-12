@@ -1,4 +1,4 @@
 export interface ServerResponse<Type> {
-  result: Type[];
+  result: Type | null;
   error?: string;
 }
