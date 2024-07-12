@@ -23,7 +23,7 @@
     "clean:all": "npm run clean && (rm -r ./node_modules || true)",
     "cover": "nyc npm run test",
     "cover:check": "nyc --check-coverage --reporter=lcov npm run test",
-    "lint": "eslint --ext .ts --fix src/**/*.ts test/**/*.ts",
+    "lint": "eslint --fix",
     "serve": "nodemon ./src/index.ts",
     "test": "mocha"
   },
@@ -51,7 +51,10 @@
   },
   "dependencies": {
     "@types/express": "^4.17.21",
+    "@types/cors": "2.8.12",
     "@types/sinon": "^17.0.3",
+    "cors": "2.8.5",
+    "helmet": "4.6.0",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "sinon": "^18.0.0",
