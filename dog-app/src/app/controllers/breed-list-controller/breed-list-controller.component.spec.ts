@@ -1,17 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { BreedListComponent } from './breed-list.component';
+
+import { BreedListControllerComponent } from './breed-list.component';
 
 describe('BreedListComponent', () => {
-  let component: BreedListComponent;
-  let fixture: ComponentFixture<BreedListComponent>;
+  let component: BreedListControllerComponent;
+  let fixture: ComponentFixture<BreedListControllerComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BreedListComponent]
+      imports: [BreedListControllerComponent]
     })
-      .compileComponents();
+    .compileComponents();
 
-    fixture = TestBed.createComponent(BreedListComponent);
+    fixture = TestBed.createComponent(BreedListControllerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

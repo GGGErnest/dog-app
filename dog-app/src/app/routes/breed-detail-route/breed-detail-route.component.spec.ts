@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { BreedDetailRouteComponent } from './breed-detail-route.component';
 
-import { BreedDetailComponent } from './breed-detail.component';
 
 describe('BreedDetailComponent', () => {
-  let component: BreedDetailComponent;
-  let fixture: ComponentFixture<BreedDetailComponent>;
+  let component: BreedDetailRouteComponent;
+  let fixture: ComponentFixture<BreedDetailRouteComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BreedDetailComponent]
+      imports: [BreedDetailRouteComponent]
     })
-    .compileComponents();
-    
-    fixture = TestBed.createComponent(BreedDetailComponent);
+      .compileComponents();
+
+    fixture = TestBed.createComponent(BreedDetailRouteComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

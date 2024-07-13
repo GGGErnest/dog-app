@@ -11,13 +11,13 @@ import { GetAllReturValue } from '../../types/api/types';
 
 
 @Component({
-  selector: 'app-breed-list',
+  selector: 'app-breed-list-controller',
   standalone: true,
   imports: [MatTableModule, MatPaginatorModule, MatSortModule, MatProgressSpinnerModule],
-  templateUrl: './breed-list.component.html',
-  styleUrl: './breed-list.component.scss'
+  templateUrl: './breed-list-controller.component.html',
+  styleUrl: './breed-list-controller.component.scss'
 })
-export class BreedListComponent implements AfterViewInit {
+export class BreedListControllerComponent implements AfterViewInit {
   private _activatedRoute = inject(ActivatedRoute);
   private _paginatedBreeds: GetAllReturValue<Breed> = this._activatedRoute.snapshot.data['breeds'];
   private _breedService = inject(BreedsService);
@@ -56,4 +56,3 @@ export class BreedListComponent implements AfterViewInit {
       .subscribe(data => (this.breeds.set(data)));
   }
 }
-

@@ -1,14 +1,14 @@
 import { Routes } from '@angular/router';
-import { BreedDetailComponent } from './routes/breed-detail/breed-detail.component';
-import { HomeComponent } from './routes/home/home.component';
-import { NotFoundComponent } from './routes/not-found/not-found.component';
 import { breedsResolver } from './services/resolvers/breeds.resolver';
-import { BreedListComponent } from './routes/breed-list/breed-list.component';
+import { BreedDetailRouteComponent } from './routes/breed-detail-route/breed-detail-route.component';
+import { BreedListRouteComponent } from './routes/breed-list-route/breed-list-route.component';
+import { HomeRouteComponent } from './routes/home-route/home-route.component';
+import { NotFoundRouteComponent } from './routes/not-found-route/not-found-route.component';
 
 export const routes: Routes = [
-  { path: 'home', component: HomeComponent },
-  { path: 'breeds', component: BreedListComponent, resolve: { breeds: breedsResolver } },
-  { path: 'breeds/details:id', component: BreedDetailComponent },
+  { path: 'home', component: HomeRouteComponent },
+  { path: 'breeds', component: BreedListRouteComponent, resolve: { breeds: breedsResolver } },
+  { path: 'breeds/details:id', component: BreedDetailRouteComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
-  { path: '*', component: NotFoundComponent },
+  { path: '*', component: NotFoundRouteComponent },
 ];
