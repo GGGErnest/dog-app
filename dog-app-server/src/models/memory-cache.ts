@@ -1,4 +1,4 @@
-import { Cache, CachedEntity, CacheKey, SerializedCacheKey } from '../types/interfaces/cache';
+import { Cache, CachedEntity, CacheKey, isMemoryCacheIdRequestkey, isMemoryCacheRangeRequestKey, SerializedCacheKey } from '../types/interfaces/cache';
 import { CacheDataConnector } from '../types/interfaces/cache-data-connectors';
 import { Settings } from '../types/interfaces/settings';
 
@@ -25,6 +25,19 @@ export class MemoryCache implements Cache {
 		return MemoryCache._instance;
 	}
 
+	private async _getDataFromConnector(key: CacheKey, dataConnector: CacheDataConnector): Promise<unknown | undefined> {
+
+		if (isMemoryCacheIdRequestkey(key)) {
+			return dataConnector.getSingle(key.id);
+		}
+
+		if (isMemoryCacheRangeRequestKey(key)) {
+			return dataConnector.getRange(key.start, key.end, key.sort, key.sortDir);
+		}
+
+		return undefined;
+	}
+
 	private _shouldRemoveFromCache(cachedEntity: CachedEntity<unknown>): boolean {
 		//TODO: Fix this calculation there should be a better way to do this
 		const twoHoursAgo = Date.now() - 1000 * 60 * 60 * 2;
@@ -40,30 +53,28 @@ export class MemoryCache implements Cache {
 	private async _addToCache(entityKey: string): Promise<void> {
 		const entityKeyObject: CacheKey = JSON.parse(entityKey) as CacheKey;
 		const connector = this._dataConnectors.get(entityKeyObject.entityName);
-		const toCacheEntity = await connector?.retrive(entityKeyObject);
+		if (connector) {
+			const toCacheEntity = this._getDataFromConnector(entityKeyObject, connector);
 
-		// creates and stores a new entity in the cache
-		if (toCacheEntity) {
-			const newCachedEntity: CachedEntity<unknown> = {
-				data: toCacheEntity,
-				expiresIn: calculateCacheExpirationTime(this._cacheExpiresAfterMinutes),
-				lasUsed: Date.now(),
-				usageCount: 1
-			};
-			this._store.set(entityKey, newCachedEntity)
+			if (toCacheEntity) {
+				const newCachedEntity: CachedEntity<unknown> = {
+					data: toCacheEntity,
+					expiresIn: calculateCacheExpirationTime(this._cacheExpiresAfterMinutes),
+					lasUsed: Date.now(),
+					usageCount: 1
+				};
+				this._store.set(entityKey, newCachedEntity)
+			}
 		}
 	}
 
 	private async _updateCache(entityKey: string, entity: CachedEntity<unknown>): Promise<void> {
 		const entityKeyObject: CacheKey = JSON.parse(entityKey) as CacheKey;
 		const connector = this._dataConnectors.get(entityKeyObject.entityName);
-		const updatedEntities = await connector?.retrive(entityKeyObject);
-
-		// update the entities in the cache if it expired 
-		if (entity && updatedEntities) {
+		if (connector) {
+			const updatedEntities = this._getDataFromConnector(entityKeyObject, connector);
 			entity.data = updatedEntities;
 			entity.expiresIn = calculateCacheExpirationTime(this._cacheExpiresAfterMinutes);
-			return;
 		}
 	}
 
@@ -82,13 +93,17 @@ export class MemoryCache implements Cache {
 	}
 
 	async read<Type>(entityKey: SerializedCacheKey): Promise<Type | undefined> {
-		const returnValue = this._store.get(entityKey);
+		const requestedData = this._store.get(entityKey);
 
-		if (returnValue === undefined) {
-			await this._addToCache(entityKey)
+		if (!requestedData) {
+			await this._addToCache(entityKey);
+			return this._store.get(entityKey)?.data as Type;
 		}
 
-		return this._store.get(entityKey)?.data as Type;
+		requestedData.lasUsed = Date.now();
+		requestedData.usageCount = requestedData.usageCount + 1;
+
+		return requestedData.data as Type;
 	}
 
 	public registerConnector(connectorId: string, connector: CacheDataConnector): void {

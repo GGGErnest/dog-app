@@ -1,4 +1,5 @@
 import { Breed } from '../types/breed';
+import { SortDir } from '../types/data';
 import { Cache } from '../types/interfaces/cache';
 import { GetAllReturValue, Model } from '../types/interfaces/model';
 import { converPageAndPageSizeToStartAndEndFormat, serializeMemoryCacheIdRequestkey, serializeMemoryCacheRangeRequestKey } from '../utils/model-utils';
@@ -14,7 +15,7 @@ export class BreedModel implements Model<Breed> {
 		this._cache.registerConnector(this._entityId, this._dataConnector)
 	}
 
-	async getAll(page: number, pageSize: number, sort: string, sortDir: string): Promise<GetAllReturValue<Breed>> {
+	async getRange(page: number, pageSize: number, sort: string, sortDir: SortDir): Promise<GetAllReturValue<Breed>> {
 		const params = converPageAndPageSizeToStartAndEndFormat(page, pageSize);
 		const cacheId = serializeMemoryCacheRangeRequestKey(this._entityId, params[0], params[1], sort, sortDir);
 		const returnValue = await this._cache.read(cacheId);

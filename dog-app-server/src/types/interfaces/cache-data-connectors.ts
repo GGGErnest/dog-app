@@ -1,8 +1,7 @@
-import { CacheKey } from './cache';
+import { SortDir } from '../data';
 
 export interface CacheDataConnector {
-  /*
-   * @return In case of undefined then the cache won't be updated
-   */
-  retrive(cacheKey: CacheKey): Promise<unknown | undefined>;
+  getRange(start: number, end: number, sort: string, sortDir: SortDir): Promise<unknown | undefined>;
+
+  getSingle(id: string): Promise<unknown | undefined>;
 }

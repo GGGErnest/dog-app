@@ -1,3 +1,4 @@
+import { SortDir } from '../data';
 import { CacheDataConnector } from './cache-data-connectors';
 
 export interface Cache {
@@ -18,7 +19,7 @@ export interface CacheKey {
 
 export interface MemoryCacheRangeRequestKey extends CacheKey {
   sort: string,
-  sortDir: string,
+  sortDir: SortDir,
   start: number;
   end: number;
 }

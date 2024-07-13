@@ -5,19 +5,20 @@ import { Settings } from '../types/interfaces/settings';
 import { ServerResponse } from '../types/interfaces/response';
 import { Breed } from '../types/breed';
 import { GetAllReturValue } from '../types/interfaces/model';
+import { SortDir } from '../types/data';
 
 export class BreedController implements Controller {
 	private readonly _breedMode = new BreedModel();
 	private readonly _defaultPaginationSize = Settings.defaultPaginationSize;
 	private readonly _defaultPage = 1;
-	private readonly _defaultSortDirection = 'desc';
+	private readonly _defaultSortDirection: SortDir = 'desc';
 
 	public async getAll(req: Request, resp: Response): Promise<void> {
 		const page = req.query.page ? parseInt(req.query.page.toString()) : this._defaultPage;
 		const pageSize = req.query.size ? parseInt(req.query.size.toString()) : this._defaultPaginationSize;
 		const sort = req.query.sort ? req.query.sort.toString() : '';
-		const sortDir = req.query.sortDir ? req.query.sortDir.toString() : this._defaultSortDirection;
-		const result = await this._breedMode.getAll(page, pageSize, sort, sortDir);
+		const sortDir = req.query.sortDir ? req.query.sortDir as SortDir : this._defaultSortDirection;
+		const result = await this._breedMode.getRange(page, pageSize, sort, sortDir);
 
 		console.log('Breeds getAll', req.query);
 		console.log('Breeds All endpoint hit:', result)

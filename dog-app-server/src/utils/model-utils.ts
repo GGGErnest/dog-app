@@ -1,3 +1,4 @@
+import { SortDir } from '../types/data';
 import { MemoryCacheIdRequestkey, MemoryCacheRangeRequestKey, MemoryCacheTotalAmountRequestkey } from '../types/interfaces/cache';
 
 export function converPageAndPageSizeToStartAndEndFormat(page: number, pageSize: number): [number, number] {
@@ -6,7 +7,7 @@ export function converPageAndPageSizeToStartAndEndFormat(page: number, pageSize:
 	return [start, end];
 }
 
-export function serializeMemoryCacheRangeRequestKey(entityId: string, start: number, end: number, sort: string, sortDir: string): string {
+export function serializeMemoryCacheRangeRequestKey(entityId: string, start: number, end: number, sort: string, sortDir: SortDir): string {
 	const entityKey: MemoryCacheRangeRequestKey = {
 		entityName: entityId,
 		start,
