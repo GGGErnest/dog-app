@@ -3,7 +3,7 @@ import 'dotenv/config';
 import express, { Express } from 'express';
 import helmet from 'helmet';
 import { routes } from './routes/routes';
-import { Settings } from './types/interfaces/settings';
+import { Settings } from './types/app-settings';
 
 const app: Express = express();
 

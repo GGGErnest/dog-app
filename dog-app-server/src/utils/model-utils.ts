@@ -1,5 +1,5 @@
 import { SortDir } from '../types/data';
-import { MemoryCacheIdRequestkey, MemoryCacheRangeRequestKey, MemoryCacheTotalAmountRequestkey } from '../types/interfaces/cache';
+import { CacheKey, MemoryCacheIdRequestkey, MemoryCacheRangeRequestKey, MemoryCacheTotalAmountRequestkey } from '../types/interfaces/cache';
 
 export function converPageAndPageSizeToStartAndEndFormat(page: number, pageSize: number): [number, number] {
 	const start = Math.abs(page * pageSize - pageSize);
@@ -33,4 +33,13 @@ export function serializeMemoryCacheTotalAmountResqueKey(entityId: string): stri
 		total: true
 	}
 	return JSON.stringify(entityKey);
+}
+
+export function deserialiseCacheKey(key: string): CacheKey | undefined {
+	try {
+		const deserialisedKey = JSON.parse(key);
+		return deserialisedKey as CacheKey;
+	} catch (error) {
+		return undefined
+	}
 }

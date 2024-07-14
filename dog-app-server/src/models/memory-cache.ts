@@ -1,6 +1,7 @@
 import { Cache, CachedEntity, CacheKey, isMemoryCacheIdRequestkey, isMemoryCacheRangeRequestKey, SerializedCacheKey } from '../types/interfaces/cache';
 import { CacheDataConnector } from '../types/interfaces/cache-data-connectors';
-import { Settings } from '../types/interfaces/settings';
+import { Settings } from '../types/app-settings';
+import { deserialiseCacheKey } from '../utils/model-utils';
 
 function calculateCacheExpirationTime(timeInMinutes: number | undefined): number {
 	return timeInMinutes !== undefined ? Date.now() + timeInMinutes * 60_000 : Date.now() + 600_000;
@@ -51,42 +52,47 @@ export class MemoryCache implements Cache {
 	}
 
 	private async _addToCache(entityKey: string): Promise<void> {
-		const entityKeyObject: CacheKey = JSON.parse(entityKey) as CacheKey;
-		const connector = this._dataConnectors.get(entityKeyObject.entityName);
-		if (connector) {
-			const toCacheEntity = this._getDataFromConnector(entityKeyObject, connector);
+		const entityKeyObject = deserialiseCacheKey(entityKey);
+		if (entityKeyObject) {
+			const connector = this._dataConnectors.get(entityKeyObject.entityName);
+			if (connector) {
+				const toCacheEntity = await this._getDataFromConnector(entityKeyObject, connector);
 
-			if (toCacheEntity) {
-				const newCachedEntity: CachedEntity<unknown> = {
-					data: toCacheEntity,
-					expiresIn: calculateCacheExpirationTime(this._cacheExpiresAfterMinutes),
-					lasUsed: Date.now(),
-					usageCount: 1
-				};
-				this._store.set(entityKey, newCachedEntity)
+				if (toCacheEntity) {
+					const newCachedEntity: CachedEntity<unknown> = {
+						data: toCacheEntity,
+						expiresIn: calculateCacheExpirationTime(this._cacheExpiresAfterMinutes),
+						lasUsed: Date.now(),
+						usageCount: 1
+					};
+					this._store.set(entityKey, newCachedEntity)
+				}
 			}
+
 		}
 	}
 
 	private async _updateCache(entityKey: string, entity: CachedEntity<unknown>): Promise<void> {
-		const entityKeyObject: CacheKey = JSON.parse(entityKey) as CacheKey;
-		const connector = this._dataConnectors.get(entityKeyObject.entityName);
-		if (connector) {
-			const updatedEntities = this._getDataFromConnector(entityKeyObject, connector);
-			entity.data = updatedEntities;
-			entity.expiresIn = calculateCacheExpirationTime(this._cacheExpiresAfterMinutes);
+		const entityKeyObject = deserialiseCacheKey(entityKey);
+		if (entityKeyObject) {
+			const connector = this._dataConnectors.get(entityKeyObject.entityName);
+			if (connector) {
+				const updatedEntities = await this._getDataFromConnector(entityKeyObject, connector);
+				entity.data = updatedEntities;
+				entity.expiresIn = calculateCacheExpirationTime(this._cacheExpiresAfterMinutes);
+			}
+
 		}
 	}
 
 	private async _cleanUpCache(): Promise<void> {
-		this._store.forEach(async (value, key) => {
+		this._store.forEach((value, key) => {
 			if (this._shouldRemoveFromCache(value)) {
 				this._store.delete(key)
 				return;
 			}
 
 			if (value.expiresIn < Date.now()) {
-				console.log('Cached item has expired', value);
 				this._updateCache(key, value);
 			}
 		});
