@@ -4,6 +4,6 @@ export type GetAllReturValue<Type> = {
 }
 
 export interface Model<Type> {
-  getRange(page: number, pageSize: number, sort: string, sortDir: string): Promise<GetAllReturValue<Type>>;
+  allWithPagination(page: number, pageSize: number, sort: string, sortDir: string): Promise<GetAllReturValue<Type>>;
   get(id: string): Promise<Type | null>;
 }

@@ -15,7 +15,8 @@ export class BreedModel implements Model<Breed> {
 		this._cache.registerConnector(this._entityId, this._dataConnector)
 	}
 
-	async getRange(page: number, pageSize: number, sort: string, sortDir: SortDir): Promise<GetAllReturValue<Breed>> {
+	// TODO: Change name of this function
+	async allWithPagination(page: number, pageSize: number, sort: string, sortDir: SortDir): Promise<GetAllReturValue<Breed>> {
 		const params = converPageAndPageSizeToStartAndEndFormat(page, pageSize);
 		const cacheId = serializeMemoryCacheRangeRequestKey(this._entityId, params[0], params[1], sort, sortDir);
 		const returnValue = await this._cache.read(cacheId);
