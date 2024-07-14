@@ -3,6 +3,7 @@ import { CacheDataConnector } from '../types/interfaces/cache-data-connectors';
 import { Settings } from '../types/app-settings';
 import { deserialiseCacheKey } from '../utils/model-utils';
 
+//TODO: How to invalidate the cache from the cache. Think about mentioning it as an improvement of the solution. Yury 
 function calculateCacheExpirationTime(timeInMinutes: number | undefined): number {
 	return timeInMinutes !== undefined ? Date.now() + timeInMinutes * 60_000 : Date.now() + 600_000;
 }
