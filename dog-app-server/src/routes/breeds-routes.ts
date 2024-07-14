@@ -1,11 +1,20 @@
-import { Express, Request, Response } from 'express';
+import express, { Request, Response } from 'express';
 import { BreedController } from '../controllers/breeds-controller';
 
-const breedController = new BreedController();
+export class BreedsRoutes {
+	private _breedController = new BreedController();
+	baseUrl = '/breeds';
 
-export function registerBreedRoutes(app: Express): void {
-	app.get('/breeds/list/all', (req: Request, res: Response) =>
-		breedController.getAll(req, res)
-	);
-	app.get('/breeds/detail/:id', (req: Request, res: Response) => breedController.get(req, res));
+
+	constructor(public router = express.Router()) {
+		this._registerRoutes();
+	}
+
+	private _registerRoutes(): void {
+		this.router.get('/list/all', (req: Request, res: Response) =>
+			this._breedController.getAll(req, res)
+		);
+		this.router.get('/detail/:id', (req: Request, res: Response) => this._breedController.get(req, res));
+	}
 }
+

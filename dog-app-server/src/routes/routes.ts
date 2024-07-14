@@ -1,11 +1,8 @@
-import { Express } from 'express';
-import { registerBreedRoutes } from './breeds-routes';
+import express from 'express';
+import { BreedsRoutes } from './breeds-routes';
 
+const breedsRouter = new BreedsRoutes();
+export const routes = express.Router();
 
-export function registerRoutes(app: Express): void {
-	app.all('/', function (req, res, next) {
-		console.log('We got a request')
-		next();
-	});
-	registerBreedRoutes(app)
-}
+routes.use(breedsRouter.baseUrl, breedsRouter.router)
+
