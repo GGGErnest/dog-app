@@ -3,17 +3,18 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { map, merge, startWith, switchMap } from 'rxjs';
-import { Breed } from '../../models/breed';
+import { Breed, Subbreed } from '../../models/breed';
 import { BreedsService } from '../../services/breeds.service';
 import { GetAllReturValue } from '../../types/api/types';
+import { NgFor, NgIf } from '@angular/common';
 
 
 @Component({
   selector: 'app-breed-list-controller',
   standalone: true,
-  imports: [MatTableModule, MatPaginatorModule, MatSortModule, MatProgressSpinnerModule],
+  imports: [RouterLink, NgFor, NgIf, MatTableModule, MatPaginatorModule, MatSortModule, MatProgressSpinnerModule],
   templateUrl: './breed-list-controller.component.html',
   styleUrl: './breed-list-controller.component.scss'
 })
@@ -22,7 +23,7 @@ export class BreedListControllerComponent implements AfterViewInit {
   private _paginatedBreeds: GetAllReturValue<Breed> = this._activatedRoute.snapshot.data['breeds'];
   private _breedService = inject(BreedsService);
 
-  public displayedColumns: string[] = ['breed', 'subbreed'];
+  public displayedColumns: string[] = ['id', 'subbreeds', 'actions'];
   public total = signal(this._paginatedBreeds.total);
   public isLoadingResults = signal(false);
   public breeds = signal<Breed[]>(this._paginatedBreeds.data ?? []);
@@ -30,6 +31,10 @@ export class BreedListControllerComponent implements AfterViewInit {
   public paginator = viewChild.required(MatPaginator);
   public sort = viewChild.required(MatSort);
 
+  public extractSubbreeds(subbreeds: Subbreed[]): string[] {
+    console.log(subbreeds);
+    return subbreeds.map((subbreed) => subbreed.id);
+  }
 
   ngAfterViewInit(): void {
 
@@ -40,8 +45,6 @@ export class BreedListControllerComponent implements AfterViewInit {
         startWith({}),
         switchMap(() => {
           this.isLoadingResults.set(true);
-          console.log('get Breeds', this.paginator().pageIndex, this.paginator().pageSize, this.sort().active as keyof Breed, this.sort().direction)
-
           return this._breedService.getBreeds(this.paginator().pageIndex + 1, this.paginator().pageSize, this.sort().active as keyof Breed, this.sort().direction);
         }),
         map(data => {

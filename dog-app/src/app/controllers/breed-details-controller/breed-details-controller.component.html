@@ -1,0 +1,20 @@
+<h3>
+  {{breed().id}}
+</h3>
+<div class="breeds-content">
+  @if(breed().subbreeds) {
+  @for(subbreed of breed().subbreeds;track subbreed.id;let last=$last) {
+  <a [routerLink]="['/breeds',breed().id,'subbreed',subbreed.id]">{{subbreed.id}}</a>
+  @if(subbreed.imagesUrl && subbreed.imagesUrl.length > 0) {
+  <img [src]="subbreed.imagesUrl[0]" width="100px" height="100px" />
+  }
+  @if(!last){
+  ,
+  }
+  }
+
+  } @else(){
+  <img [src]="breed().imagesUrl![0]" width="100px" height="100px" />
+  }
+
+</div>
