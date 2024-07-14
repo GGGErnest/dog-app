@@ -13,11 +13,11 @@ export class BreedsService {
   private _httpClient = inject(HttpClient);
 
 
-  public async getBreeds(page = 1, size = 10, sort: keyof Breed = 'breed', sortDir: SortDirection = 'desc'): Promise<ServerResponse<GetAllReturValue<Breed>>> {
+  public async getBreeds(page = 1, size = 10, sort: keyof Breed = 'id', sortDir: SortDirection = 'desc'): Promise<ServerResponse<GetAllReturValue<Breed>>> {
     return firstValueFrom(this._httpClient.get<ServerResponse<GetAllReturValue<Breed>>>(`${this._baseUrl}list/all?page=${page}&size=${size}&sort=${sort}&sortDir=${sortDir}`));
   }
 
   public async getBreedDetail(breedId: string): Promise<ServerResponse<Breed>> {
-    return firstValueFrom(this._httpClient.get<ServerResponse<Breed>>(`${this._baseUrl}details/${breedId}`));
+    return firstValueFrom(this._httpClient.get<ServerResponse<Breed>>(`${this._baseUrl}detail/${breedId}`));
   }
 }
