@@ -1,10 +1,67 @@
-/* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+$theme: mat.define-theme((color: (theme-type: light,
+        primary: mat.$rose-palette,
+        tertiary: mat.$red-palette ),
+      typography: (plain-family: 'Quicksand',
+        brand-family: 'Baloo',
+        bold-weight: 900,
+        medium-weight: 500,
+        regular-weight: 300),
+      density: (scale: -1)));
+
+@use "./app/styles/components";
+
+@include components.theme($theme);
+
+html,
+body {
+  height: 100%;
+  margin: 0
+}
+
+html {
+  @include mat.core-theme($theme);
+  @include mat.all-component-themes($theme);
+  font-family: mat.get-theme-typography($theme, body-large, font-family);
+}
+
+body {
+  margin: 0;
+  height: 100%;
+}
+
 app-root {
   position: relative;
   height: 100%;
   display: flex;
   flex-grow: 1;
 }
+
+
+:root {
+  --padding-content: 2px;
+}
+
+.padding-content {
+  padding: var(--padding-content);
+}
+
+@media only screen and (min-width: 640px) {
+  :root {
+    --padding-content: 5px;
+  }
+}
+
+/* Large devices (desktops, 1024px and up) */
+@media only screen and (min-width: 1024px) {
+  :root {
+    --padding-content: 5px;
+  }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {}
+
+/* XXLarge devices (larger desktops, 1440px and up) */
+@media only screen and (min-width: 1440px) {}

@@ -1,9 +1,47 @@
 :host {
- display: flex;
- flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 main {
- flex-grow: 1;
- padding: 16px;
+  position: relative;
+  align-self: center;
+  width: 100%;
+  display: flex;
+}
+
+app-top-header {
+  height: 100px;
+}
+
+app-top-header a {
+  margin-right: 5px;
+}
+
+/* Medium devices (tablets, 640px and up) */
+@media only screen and (min-width: 640px) {
+  main {
+    width: 600px;
+  }
+}
+
+/* Large devices (desktops, 1024px and up) */
+@media only screen and (min-width: 1024px) {
+  main {
+    width: 900px;
+  }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  main {
+    width: 1000px;
+  }
+}
+
+/* XXLarge devices (larger desktops, 1440px and up) */
+@media only screen and (min-width: 1440px) {
+  main {
+    width: 1200px;
+  }
 }

@@ -1,0 +1,15 @@
+@use 'SASS:map';
+@use '@angular/material' as mat;
+
+
+@mixin color($theme) {
+
+  app-top-header a.active {
+    background-color: mat.get-theme-color($theme, primary);
+    color: mat.get-theme-color($theme, on-primary) !important;
+  }
+}
+
+@mixin theme($theme) {
+  @include color($theme);
+}
