@@ -1,0 +1,25 @@
+nav {
+  display: flex;
+  justify-content: space-evenly;
+  padding: 0 16px;
+  border-bottom:  rgba(198, 198, 198, 0.8) 1px solid;
+  height: 100%;
+}
+
+.center-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.left-content {
+  margin: 0 5px;
+  display: flex;
+}
+
+.right-content {
+  display: flex;
+  margin-left: 5px;
+  justify-content: right;
+  align-items: center;
+}
