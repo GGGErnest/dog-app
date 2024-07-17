@@ -1,20 +1,30 @@
-<h3>
-  {{breed().id}}
-</h3>
+<p class="padding-content">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos fuga in ab molestias voluptate, iste,
+    vitae praesentium, aperiam eligendi obcaecati laborum! Quaerat illo labore assumenda libero cum aliquid similique perspiciatis.
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos fuga in ab molestias voluptate, iste,
+    vitae praesentium, aperiam eligendi obcaecati laborum! Quaerat illo labore assumenda libero cum aliquid similique perspiciatis.
+  </p>
+  <p class="padding-content">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos fuga in ab molestias voluptate, iste,
+    vitae praesentium, aperiam eligendi obcaecati laborum! Quaerat illo labore assumenda libero cum aliquid similique perspiciatis.
+  </p>
+  <h2 class="padding-content">Subbreeds of this breed</h2>
 <div class="breeds-content">
-  @if(breed().subbreeds) {
-  @for(subbreed of breed().subbreeds;track subbreed.id;let last=$last) {
-  <a [routerLink]="['/breeds',breed().id,'subbreed',subbreed.id]">{{subbreed.id}}</a>
-  @if(subbreed.imagesUrl && subbreed.imagesUrl.length > 0) {
-  <img [src]="subbreed.imagesUrl[0]" width="100px" height="100px" />
+   @if(imageGallery()) {
+  <app-image-gallery [gallery]="imageGallery()!"></app-image-gallery>
   }
-  @if(!last){
-  ,
+  @else() {
+    <mat-card  appearance="outlined">
+      <mat-card-header>
+          <mat-card-title>{{breed().id | titlecase}}</mat-card-title>
+      </mat-card-header>
+      <img mat-card-image [src]="breed().imagesUrl![0]"/>
+      <mat-card-content>
+      <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Laboriosam exercitationem obcaecati
+        maiores deserunt iste eum, natus similique.
+      </p>
+    </mat-card-content>
+      <mat-card-actions>
+        <button mat-button role="button" (click)="onImageGalleyClick()">Gallery</button>
+      </mat-card-actions>
+    </mat-card>
   }
-  }
-
-  } @else(){
-  <img [src]="breed().imagesUrl![0]" width="100px" height="100px" />
-  }
-
 </div>

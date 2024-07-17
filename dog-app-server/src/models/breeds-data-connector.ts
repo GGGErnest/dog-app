@@ -46,7 +46,7 @@ function breedsComparation(first: string, second: string, sortDir: string): numb
 
 export class BreedDataConnector implements CacheDataConnector {
 	private readonly _baseUrl = 'https://dog.ceo/api/';
-	private readonly _defaultAmountOfImagesToRetrive = 1;
+	private readonly _defaultAmountOfImagesToRetrive = 20;
 
 	private async _getBreedImages(breed: string, subbreed?: string): Promise<string[]> {
 		let images: string[] = [];

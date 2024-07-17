@@ -1,10 +1,9 @@
 :host {
-  flex-grow: 1;
-}
-
-.breeds-content {
+  position: relative;
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
+  align-items: start;
 }
 
 mat-card {
@@ -12,7 +11,7 @@ mat-card {
 }
 
 @media only screen and (min-width: 640px) {
-  .breeds-content {
+  :host {
     justify-content: start;
   }
 }
