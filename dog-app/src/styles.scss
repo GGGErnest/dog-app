@@ -26,6 +26,21 @@ html {
   font-family: mat.get-theme-typography($theme, body-large, font-family);
 }
 
+h1,
+h2,
+h3,
+p {
+  text-align: left;
+}
+
+h1,
+h2,
+h3,
+em,
+b {
+  color: mat.get-theme-color($theme, primary);
+}
+
 body {
   margin: 0;
   height: 100%;
@@ -41,15 +56,21 @@ app-root {
 
 :root {
   --padding-content: 2px;
+  --margin-content: 2px;
 }
 
 .padding-content {
   padding: var(--padding-content);
 }
 
+.margin-content {
+  margin: var(--margin-content);
+}
+
 @media only screen and (min-width: 640px) {
   :root {
     --padding-content: 5px;
+    --margin-content: 5px;
   }
 }
 
@@ -57,6 +78,7 @@ app-root {
 @media only screen and (min-width: 1024px) {
   :root {
     --padding-content: 5px;
+    --margin-content: 10px;
   }
 }
 

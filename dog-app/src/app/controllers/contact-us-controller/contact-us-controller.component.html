@@ -1,0 +1,39 @@
+<form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="contact-form">
+  <mat-form-field>
+    <mat-label>Name</mat-label>
+    <input matInput formControlName="name" required>
+    @if(contactForm.get('name')?.hasError('required')) {
+    <mat-error>Name is required</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Email</mat-label>
+    <input matInput formControlName="email" required type="email">
+    @if(contactForm.get('name')?.hasError('required')) {
+    <mat-error *ngIf="contactForm.get('email')?.hasError('required')">Email is required</mat-error>
+    }
+    @if(contactForm.get('name')?.hasError('email')) {
+    <mat-error *ngIf="contactForm.get('email')?.hasError('email')">Please enter a valid email address</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Subject</mat-label>
+    <input matInput formControlName="subject" required>
+
+    @if(contactForm.get('subject')?.hasError('required')) {
+    <mat-error *ngIf="contactForm.get('subject')?.hasError('required')">Subject is required</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Message</mat-label>
+    <textarea matInput formControlName="message" required rows="4"></textarea>
+    @if(contactForm.get('message')?.hasError('required')) {
+    <mat-error *ngIf="contactForm.get('message')?.hasError('required')">Message is required</mat-error>
+    }
+  </mat-form-field>
+
+  <button mat-flat-button color="primary" type="submit" [disabled]="!contactForm.valid">Send</button>
+</form>

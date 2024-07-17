@@ -3,15 +3,41 @@
   flex-direction: column;
 }
 
+.content-width {
+  --content-width: 400px;
+}
+
 main {
   position: relative;
   align-self: center;
   width: 100%;
   display: flex;
+  flex-grow: 1;
+  width: var(--content-width);
+  padding-top: 25px;
 }
 
 app-top-header {
   height: 100px;
+}
+
+footer {
+  display: flex;
+  flex-direction: column;
+  margin-top: 5px;
+  padding: 15px;
+  justify-content: center;
+  align-items: center;
+}
+
+footer nav,
+div {
+  width: var(--content-width);
+}
+
+footer,
+p {
+  font-size: 11px;
 }
 
 app-top-header a {
@@ -20,28 +46,28 @@ app-top-header a {
 
 /* Medium devices (tablets, 640px and up) */
 @media only screen and (min-width: 640px) {
-  main {
-    width: 600px;
+  .content-width {
+    --content-width: 600px;
   }
 }
 
 /* Large devices (desktops, 1024px and up) */
 @media only screen and (min-width: 1024px) {
-  main {
-    width: 900px;
+  .content-width {
+    --content-width: 900px;
   }
 }
 
 /* Extra large devices (large desktops, 1200px and up) */
 @media only screen and (min-width: 1200px) {
-  main {
-    width: 1000px;
+  .content-width {
+    --content-width: 1000px;
   }
 }
 
 /* XXLarge devices (larger desktops, 1440px and up) */
 @media only screen and (min-width: 1440px) {
-  main {
-    width: 1200px;
+  .content-width {
+    --content-width: 1200px;
   }
 }
