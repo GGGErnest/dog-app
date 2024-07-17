@@ -1,0 +1,19 @@
+@for(galleryName of categories(); track galleryName) {
+  @let currentGallery = gallery()[galleryName];
+  <mat-card class="margin-content" appearance="outlined">
+    <mat-card-header>
+      <mat-card-title>{{galleryName.toString() | titlecase}}</mat-card-title>
+    </mat-card-header>
+    <img mat-card-image [src]="currentGallery.mainImage"/>
+    <mat-card-content>
+      <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Laboriosam exercitationem obcaecati
+        maiores deserunt iste eum, natus similique.
+      </p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button role="button" (click)="onImageGalleyClick(galleryName)">Gallery</button>
+    </mat-card-actions>
+  </mat-card>
+}
+
+

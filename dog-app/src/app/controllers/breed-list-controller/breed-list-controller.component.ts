@@ -9,12 +9,14 @@ import { Breed, Subbreed } from '../../models/breed';
 import { BreedsService } from '../../services/breeds.service';
 import { GetAllReturValue } from '../../types/api/types';
 import { NgFor, NgIf } from '@angular/common';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatButtonModule } from '@angular/material/button';
 
 
 @Component({
   selector: 'app-breed-list-controller',
   standalone: true,
-  imports: [RouterLink, NgFor, NgIf, MatTableModule, MatPaginatorModule, MatSortModule, MatProgressSpinnerModule],
+  imports: [RouterLink, NgFor, NgIf, MatTableModule, MatPaginatorModule, MatSortModule, MatTooltipModule, MatButtonModule, MatProgressSpinnerModule],
   templateUrl: './breed-list-controller.component.html',
   styleUrl: './breed-list-controller.component.scss'
 })

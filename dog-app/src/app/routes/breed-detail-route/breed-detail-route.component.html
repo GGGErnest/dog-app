@@ -1,1 +1,7 @@
+<div class="top-bar">
+  <a mat-icon-button routerLink="/breeds" matTooltip="Back to breeds list">
+    <mat-icon>arrow_back</mat-icon>
+  </a>
+  <h1>{{breed.id | titlecase}}</h1>
+</div>
 <app-breed-details-controller [breed]="breed"></app-breed-details-controller>
