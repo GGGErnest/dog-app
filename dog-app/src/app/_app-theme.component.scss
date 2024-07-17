@@ -8,6 +8,12 @@
     background-color: mat.get-theme-color($theme, primary);
     color: mat.get-theme-color($theme, on-primary) !important;
   }
+
+  footer {
+    border-top: 5px solid mat.get-theme-color($theme, primary);
+  }
+
+  footer a {}
 }
 
 @mixin theme($theme) {

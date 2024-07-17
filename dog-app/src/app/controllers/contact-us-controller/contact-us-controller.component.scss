@@ -1,0 +1,9 @@
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  max-width: 500px;
+}
+
+mat-form-field {
+  margin-bottom: 20px;
+}

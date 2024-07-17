@@ -16,6 +16,27 @@
   </ng-container>
 
 </app-top-header>
-<main class="padding-content">
+<main class="padding-content content-width">
   <router-outlet />
 </main>
+<footer>
+  <nav class="footer-nav">
+    <a class="margin-content" routerLink="/about-us" mat-button>
+      About Us
+    </a>
+    <a class="margin-content" routerLink="/contact-us" mat-button>
+      Contact Us
+    </a>
+    <a class="margin-content" routerLink="/terms-and-conditions" mat-button>
+      Terms and Conditions
+    </a>
+    <a class="margin-content" routerLink="/privacy-policy" mat-button>
+      Privacy Policy
+    </a>
+  </nav>
+  <div class="rights-reserve">
+    <p>
+      DogBreeds is a property of Ernesto, LLC. © 2024 All Rights Reserved.
+    </p>
+  </div>
+</footer>
