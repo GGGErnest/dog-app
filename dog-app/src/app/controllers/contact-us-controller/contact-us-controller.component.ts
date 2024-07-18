@@ -5,6 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { NotificationService } from '../../services/notification.service';
 
 @Component({
   selector: 'app-contact-us-controller',
@@ -22,15 +23,14 @@ export class ContactUsControllerComponent {
     message: ['', Validators.required]
   });
   snackBar = inject(MatSnackBar);
+  private readonly _renotificationService = inject(NotificationService);
 
   onSubmit() {
     if (this.contactForm.valid) {
-      console.log('Form submitted:', this.contactForm.value);
-      // Here you would typically send the form data to a server
-      this.snackBar.open('Message sent successfully!', 'Close', {
-        duration: 3000
-      });
+      this._renotificationService.message('Message sent successfully!');
       this.contactForm.reset();
     }
+
+    this._renotificationService.error('Sorry, fill all the required field');
   }
 }
