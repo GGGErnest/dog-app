@@ -4,5 +4,6 @@ export const Settings = {
 	defaultPaginationSize: parseInt(process.env.DEFAULT_PAGINATION_SIZE ?? '10'),
 	cacheExpiresAfterMinutes: parseInt(process.env.CACHE_EXPIRES_AFTER_MINUTES ?? '10'),
 	cacheLimit: parseInt(process.env.CACHE_LIMIT ?? '200'),
-	cacheCleaningFrequency: parseInt(process.env.CACHE_CLEANING_FREQUENCY ?? '1000')
+	cacheCleaningFrequency: parseInt(process.env.CACHE_CLEANING_FREQUENCY ?? '1000'),
+	defaultSortDir: process.env.DEFAULT_SORT_DIR ?? 'desc'
 }
