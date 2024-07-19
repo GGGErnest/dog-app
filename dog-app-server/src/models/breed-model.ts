@@ -1,7 +1,10 @@
 import { Breed } from '../types/breed';
+import { ConsoleLogger } from '../types/console-logger';
 import { SortDir } from '../types/data';
 import { Cache } from '../types/interfaces/cache';
-import { GetAllReturValue, Model } from '../types/interfaces/model';
+import { DataConnector } from '../types/interfaces/cache-data-connectors';
+import { Logger } from '../types/interfaces/logger';
+import { AllValue, EMPTY_ALL_VALUE, EMPTY_GET_VALUE, Model } from '../types/interfaces/model';
 import { converPageAndPageSizeToStartAndEndFormat, serializeMemoryCacheIdRequestkey, serializeMemoryCacheRangeRequestKey } from '../utils/model-utils';
 import { BreedDataConnector } from './breeds-data-connector';
 import { MemoryCache } from './memory-cache';
@@ -9,26 +12,33 @@ import { MemoryCache } from './memory-cache';
 
 export class BreedModel implements Model<Breed> {
 	private readonly _entityId = 'breed';
-	private readonly _dataConnector = new BreedDataConnector();
 
-	constructor(private _cache: Cache = MemoryCache.instance) {
+	constructor(private readonly _dataConnector: DataConnector = new BreedDataConnector(), private _cache: Cache = MemoryCache.instance,
+    private readonly _logger: Logger = ConsoleLogger.instance) {
 		this._cache.registerConnector(this._entityId, this._dataConnector)
 	}
 
-	// TODO: Change name of this function
-	async allWithPagination(page: number, pageSize: number, sort: string, sortDir: SortDir): Promise<GetAllReturValue<Breed>> {
+	async allWithPagination(page: number, pageSize: number, sort: string, sortDir: SortDir): Promise<AllValue<Breed> | typeof EMPTY_ALL_VALUE> {
 		const params = converPageAndPageSizeToStartAndEndFormat(page, pageSize);
 		const cacheId = serializeMemoryCacheRangeRequestKey(this._entityId, params[0], params[1], sort, sortDir);
-		const returnValue = await this._cache.read(cacheId);
-
-		console.log('BreedModel getAll', cacheId, returnValue);
-		return returnValue as GetAllReturValue<Breed> ?? { data: [], total: 0 }
+		try {
+			const returnValue = await this._cache.read(cacheId);
+			return returnValue as AllValue<Breed>;
+		} catch (error) {
+			this._logger.error('BreedModel allWithPagination', error);
+			return EMPTY_ALL_VALUE;
+		}
 	}
 
-	async get(id: string): Promise<Breed | null> {
+	async get(id: string): Promise<Breed | typeof EMPTY_GET_VALUE> {
 		const cacheId = serializeMemoryCacheIdRequestkey(this._entityId, id);
-		const returnValue = await this._cache.read(cacheId);
-		return returnValue as Breed ?? null;
+		try {
+			const returnValue = await this._cache.read(cacheId);
+			return returnValue as Breed;
+		} catch (error) {
+			this._logger.error('BreedModel allWithPagination', error);
+			return EMPTY_GET_VALUE;
+		}
 	}
 
 }

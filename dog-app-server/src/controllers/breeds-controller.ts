@@ -1,18 +1,21 @@
 import { BreedModel } from '../models/breed-model';
 import { Breed } from '../types/breed';
+import { ConsoleLogger } from '../types/console-logger';
 import { SortDir } from '../types/data';
 import { Controller } from '../types/interfaces/controler';
-import { GetAllReturValue } from '../types/interfaces/model';
+import { Logger } from '../types/interfaces/logger';
+import { AllValue } from '../types/interfaces/model';
 
 export class BreedController implements Controller<Breed> {
-	private readonly _breedModel = new BreedModel();
 
-	public async findAllWithPagination(page: number, pageSize: number, sort: string, sortDir: SortDir): Promise<GetAllReturValue<Breed> | null> {
+	constructor(private readonly _breedModel = new BreedModel(), private readonly _logger: Logger = ConsoleLogger.instance) {
+	}
+
+	public async findAllWithPagination(page: number, pageSize: number, sort: string, sortDir: SortDir): Promise<AllValue<Breed> | null> {
 		try {
 			return await this._breedModel.allWithPagination(page, pageSize, sort, sortDir);
-
 		} catch (error) {
-			//TODO: error handling here please
+			this._logger.error('BreedController findAllWithPagination', error);
 			return null;
 		}
 	}
@@ -21,7 +24,7 @@ export class BreedController implements Controller<Breed> {
 		try {
 			return await this._breedModel.get(breedId);
 		} catch (error) {
-			//TODO: error handling here please
+			this._logger.error('BreedController getById', error);
 			return null;
 		}
 	}

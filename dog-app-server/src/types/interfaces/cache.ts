@@ -1,15 +1,15 @@
 import { SortDir } from '../data';
-import { CacheDataConnector } from './cache-data-connectors';
+import { DataConnector } from './cache-data-connectors';
 
 export interface Cache {
   read(dataId: SerializedCacheKey): Promise<unknown>;
-  registerConnector(connectorId: string, connector: CacheDataConnector): void;
+  registerConnector(connectorId: string, connector: DataConnector): void;
 }
 
 export interface CachedEntity<Type> {
   expiresIn: number;
   data: Type;
-  lasUsed: number;
+  lastUsed: number;
   usageCount: number;
 }
 

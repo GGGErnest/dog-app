@@ -1,28 +1,30 @@
 import { Breed, Subbreed } from '../types/breed';
+import { ConsoleLogger } from '../types/console-logger';
 import { SortDir } from '../types/data';
-import { CacheDataConnector } from '../types/interfaces/cache-data-connectors';
-import { GetAllReturValue } from '../types/interfaces/model';
+import { DataConnector } from '../types/interfaces/cache-data-connectors';
+import { Logger } from '../types/interfaces/logger';
+import { AllValue } from '../types/interfaces/model';
 import { isPromiseSettledResultFulfilled } from '../utils/type-guards';
 
 
-type AllBreedsResponse = {
+export type AllBreedsResponse = {
   message: {
     [key: string]: string[]
   }
   status: string;
 };
 
-type AllSubBreedsResponse = {
+export type AllSubBreedsResponse = {
   message: string[]
   status: string;
 }
 
-type SubbreedImagesResponse = {
+export type SubbreedImagesResponse = {
   message: string[],
   status: string,
 }
 
-function parseAllSubBreedsResponse(response: AllBreedsResponse): Breed[] {
+export function parseAllSubBreedsResponse(response: AllBreedsResponse): Breed[] {
 	const breeds: Breed[] = [];
 	Object.keys(response.message).forEach((breed: string) => {
 		const subbreeds: Subbreed[] = response.message[breed].map<Subbreed>((id: string) => { return { id } });
@@ -44,9 +46,12 @@ function breedsComparation(first: string, second: string, sortDir: string): numb
 	return first.toLowerCase() < second.toLowerCase() ? -1 : 1;
 }
 
-export class BreedDataConnector implements CacheDataConnector {
+export class BreedDataConnector implements DataConnector {
 	private readonly _baseUrl = 'https://dog.ceo/api/';
 	private readonly _defaultAmountOfImagesToRetrive = 20;
+	constructor(private readonly _httpClient = fetch, private readonly _logger: Logger = ConsoleLogger.instance) {
+
+	}
 
 	private async _getBreedImages(breed: string, subbreed?: string): Promise<string[]> {
 		let images: string[] = [];
@@ -54,7 +59,7 @@ export class BreedDataConnector implements CacheDataConnector {
 
 		try {
 
-			const response = await fetch(url);
+			const response = await this._httpClient(url);
 
 			if (response.ok) {
 				const result: SubbreedImagesResponse = await response.json() as SubbreedImagesResponse;
@@ -63,22 +68,21 @@ export class BreedDataConnector implements CacheDataConnector {
 					// image from the breed but not in an array
 					images = Array.isArray(result.message) ? result.message : [result.message];
 				}
-
-
 			}
 
 		} catch (error) {
 			// TODO: add error handling here, log the error with the logger, something
+			this._logger.error('BreedDataConnector _getBreedImages', error);
 		}
 
 		return images;
 	}
 
-	public async getRange(start: number, end: number, _sortByKey: keyof Breed, sortDir: SortDir): Promise<GetAllReturValue<Breed> | undefined> {
+	public async getRange(start: number, end: number, _sortByKey: keyof Breed, sortDir: SortDir): Promise<AllValue<Breed> | undefined> {
 		const url = `${this._baseUrl}breeds/list/all`;
 
 		try {
-			const response = await fetch(url);
+			const response = await this._httpClient(url);
 			if (!response.ok) {
 				return undefined;
 			}
@@ -86,7 +90,7 @@ export class BreedDataConnector implements CacheDataConnector {
 			const result = (await response.json()) as AllBreedsResponse;
 
 			if (result.status === 'success') {
-				const returnValue: GetAllReturValue<Breed> = { data: [], total: 0 };
+				const returnValue: AllValue<Breed> = { data: [], total: 0 };
 				const breeds = parseAllSubBreedsResponse(result);
 
 				returnValue.data = breeds.sort((first: Breed, second: Breed) => applySort(first, second, 'id', sortDir))
@@ -109,7 +113,7 @@ export class BreedDataConnector implements CacheDataConnector {
 		const url = `${this._baseUrl}breed/${id}/list`;
 
 		try {
-			const response = await fetch(url);
+			const response = await this._httpClient(url);
 			if (!response.ok) {
 				return undefined;
 			}
