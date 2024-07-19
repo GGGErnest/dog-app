@@ -1,47 +1,113 @@
-App Requirements
+# Dog App
 
-Create an Angular application focused on dog breeds. The frontend communicates with a Backend for Frontend (BFF) built in Node.js or Java, serving as a proxy to the [Dog API](https://dog.ceo/dog-api/documentation/).
+This project consists of two applications: an Angular frontend (dog-app) and an Express.js backend (dog-app-server).
 
-Requirements:
+## Prerequisites
 
-1. Angular App:
+Before you begin, ensure you have the following installed:
 
-- Use Angular CLI to initialize a new project named `dog-app`.
+- Node.js (latest LTS version recommended)
+- npm (comes with Node.js)
+- Angular CLI (`npm install -g @angular/cli`)
 
-2. Node.js/Java/Kotlin BFF:
+## Project Structure
 
-- Create a Node.js BFF with Express or a Java BFF.
+```
+dog-app/
+├── frontend/     # Angular application
+├── backend/      # Express.js server
+└── README.md     # This file
+```
 
-- Implement two endpoints:
+## Setting Up the Frontend (Angular App)
 
-- `GET /breeds/list/all?size=10`: Fetch paginated breed data from Dog API, flatten the list, and cache it.
+1. Navigate to the frontend directory:
 
-- `GET /breeds/detail/:id`: Retrieve breed details from the cache based on the provided ID.
+   ```
+   cd dog-app
+   ```
 
-3. Caching:
+2. Install dependencies:
 
-- Implement in-memory caching for the fetched breed data.
+   ```
+   npm install
+   ```
 
-5. Angular Service:
+3. Start the development server:
 
-- Develop an Angular service to interact with the BFF endpoints.
+   ```
+   ng start
+   ```
 
-- Use Angular HttpClient to make requests to the BFF.
+   The application will be available at `http://localhost:4200/`.
 
-6. Angular Components:
+### Additional Angular App Commands
 
-- Build two Angular components:
+- Build the app: `npm run build`
+- Run unit tests: `npm test`
+- Run end-to-end tests: `npm run e2e`
 
-- `BreedListComponent`: Display a paginated list of breeds.
+## Setting Up the Backend (Express.js Server)
 
-- `BreedDetailComponent`: Show details of a selected breed.
+1. Navigate to the dog-app-server directory:
 
-- Utilize the service to fetch and display data.
+   ```
+   cd dog-app-server
+   ```
 
-Submission:
+2. Install dependencies:
 
-- Share the GitHub repository containing your Angular app and BFF code.
+   ```
+   npm install
+   ```
 
-- Include a README with instructions on how to run the app.
+3. Start the development server:
 
-Kindly upload your source code on github and share the link with us
+   ```
+   npm run serve
+   ```
+
+   The server will start, and you can access it at `http://localhost:3000/` (or whichever port you've configured).
+
+### Additional Express Server Commands
+
+- Build the server: `npm run build`
+- Run tests: `npm test`
+
+## Development Workflow
+
+1. Start the express server first.
+2. Then start the angular application.
+3. Make changes to the code as needed.
+4. The Angular app will automatically reload when you save changes.
+5. The server will reload on code changes too.
+
+## Testing
+
+### Angular Testing
+
+- Run `npm test` in the dog-app directory to execute unit tests via Karma.
+- Run `npm run e2e` to execute end-to-end tests via Cypress.
+
+### Backend Testing
+
+- Run `npm test` in the dog-app-server directory to execute tests using Mocha.
+
+## Building for Production
+
+### Angular App
+
+Run `npm run build` in the dog-app directory. The build artifacts will be stored in the `dist/` directory.
+
+### Express Server
+
+Run `npm run build` in the backend directory. The compiled JavaScript files will be output to the `dist/` directory.
+
+## Additional Notes
+
+- The backend uses environment variables. Make sure to set up a `.env` file in the dog-app-server directory with the necessary configurations. There is a template provided for guidance
+- The backend uses Sinon for mocking in tests. Refer to Sinon documentation if you need to write or modify tests.
+
+## License
+
+This project is licensed under the MIT License. See the LICENSE file for details.
