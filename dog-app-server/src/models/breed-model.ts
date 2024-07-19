@@ -22,8 +22,8 @@ export class BreedModel implements Model<Breed> {
 		const params = converPageAndPageSizeToStartAndEndFormat(page, pageSize);
 		const cacheId = serializeMemoryCacheRangeRequestKey(this._entityId, params[0], params[1], sort, sortDir);
 		try {
-			const returnValue = await this._cache.read(cacheId);
-			return returnValue as AllValue<Breed>;
+			const breedsInTheRange = await this._cache.read(cacheId);
+			return breedsInTheRange as AllValue<Breed>;
 		} catch (error) {
 			this._logger.error('BreedModel allWithPagination', error);
 			return EMPTY_ALL_VALUE;
@@ -33,8 +33,8 @@ export class BreedModel implements Model<Breed> {
 	async get(id: string): Promise<Breed | typeof EMPTY_GET_VALUE> {
 		const cacheId = serializeMemoryCacheIdRequestkey(this._entityId, id);
 		try {
-			const returnValue = await this._cache.read(cacheId);
-			return returnValue as Breed;
+			const breed = await this._cache.read(cacheId);
+			return breed as Breed;
 		} catch (error) {
 			this._logger.error('BreedModel allWithPagination', error);
 			return EMPTY_GET_VALUE;

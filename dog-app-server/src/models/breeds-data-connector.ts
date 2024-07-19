@@ -90,15 +90,15 @@ export class BreedDataConnector implements DataConnector {
 			const result = (await response.json()) as AllBreedsResponse;
 
 			if (result.status === 'success') {
-				const returnValue: AllValue<Breed> = { data: [], total: 0 };
+				const breedsInTheRange: AllValue<Breed> = { data: [], total: 0 };
 				const breeds = parseAllSubBreedsResponse(result);
 
-				returnValue.data = breeds.sort((first: Breed, second: Breed) => applySort(first, second, 'id', sortDir))
+				breedsInTheRange.data = breeds.sort((first: Breed, second: Breed) => applySort(first, second, 'id', sortDir))
 					.filter((_value, index) => index >= start && index <= end);
 
-				returnValue.total = breeds.length;
+				breedsInTheRange.total = breeds.length;
 
-				return returnValue;
+				return breedsInTheRange;
 			}
 
 			return undefined;
@@ -121,7 +121,7 @@ export class BreedDataConnector implements DataConnector {
 			const result = (await response.json()) as AllSubBreedsResponse;
 
 			if (result.status === 'success') {
-				const returnValue: Breed = {
+				const breed: Breed = {
 					id: id,
 				};
 
@@ -135,14 +135,14 @@ export class BreedDataConnector implements DataConnector {
 
 					const fulfilledPromises = subbreedsPromiseSettled.filter(isPromiseSettledResultFulfilled);
 					const subbreeds = fulfilledPromises.map<Subbreed>((settledPromised) => settledPromised.value);
-					returnValue.subbreeds = subbreeds;
-					return returnValue;
+					breed.subbreeds = subbreeds;
+					return breed;
 				}
 
 				const breedImages = await this._getBreedImages(id);
-				returnValue.imagesUrl = breedImages;
+				breed.imagesUrl = breedImages;
 
-				return returnValue;
+				return breed;
 			}
 
 			return undefined;
