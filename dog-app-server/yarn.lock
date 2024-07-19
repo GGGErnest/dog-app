@@ -565,7 +565,7 @@
   dependencies:
     "@types/sinonjs__fake-timers" "*"
 
-"@types/sinonjs__fake-timers@*":
+"@types/sinonjs__fake-timers@*", "@types/sinonjs__fake-timers@^8.1.5":
   version "8.1.5"
   resolved "https://registry.yarnpkg.com/@types/sinonjs__fake-timers/-/sinonjs__fake-timers-8.1.5.tgz#5fd3592ff10c1e9695d377020c033116cc2889f2"
   integrity sha512-mQkU2jY8jJEF7YHjHvsQO8+3ughTL1mcnn96igfhONmR+fUPSKIkefQYpSe8bsly2Ep7oQbn/6VG5/9/0qcArQ==
@@ -975,6 +975,13 @@ caniuse-lite@^1.0.30001629:
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001640.tgz#32c467d4bf1f1a0faa63fc793c2ba81169e7652f"
   integrity sha512-lA4VMpW0PSUrFnkmVuEKBUovSWKhj7puyCg8StBChgu298N1AtuF1sKWEvfDuimSEDbhlb/KqPKC3fs1HbuQUA==
 
+chai-as-promised@^8.0.0:
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/chai-as-promised/-/chai-as-promised-8.0.0.tgz#7eda823f2a6fe9fd3a76bc76878886e955232e6f"
+  integrity sha512-sMsGXTrS3FunP/wbqh/KxM8Kj/aLPXQGkNtvE5wPfSToq8wkkvBpTZo1LIiEVmC4BwkKpag+l5h/20lBMk6nUg==
+  dependencies:
+    check-error "^2.0.0"
+
 chai@^4.3.7:
   version "4.4.1"
   resolved "https://registry.yarnpkg.com/chai/-/chai-4.4.1.tgz#3603fa6eba35425b0f2ac91a009fe924106e50d1"
@@ -1021,6 +1028,11 @@ check-error@^1.0.3:
   integrity sha512-iKEoDYaRmd1mxM90a2OEfWhjsjPpYPuQ+lMYsoxB126+t8fw7ySEO48nmDg5COTjxDI65/Y2OWpeEHk3ZOe8zg==
   dependencies:
     get-func-name "^2.0.2"
+
+check-error@^2.0.0:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/check-error/-/check-error-2.1.1.tgz#87eb876ae71ee388fa0471fe423f494be1d96ccc"
+  integrity sha512-OAlb+T7V4Op9OwdkjmguYRqncdlx5JiofwOAUkmTF+jNdHwzTaTs4sRAGpzLF3oOz5xAyDGrPgeIDFQmDOTiJw==
 
 chokidar@^3.5.2, chokidar@^3.5.3:
   version "3.6.0"
