@@ -4,12 +4,13 @@ import { Breed } from '../models/breed';
 import { firstValueFrom } from 'rxjs';
 import { GetAllReturValue, ServerResponse } from '../types/api/types';
 import { SortDirection } from '@angular/material/sort';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BreedsService {
-  private readonly _baseUrl = 'http://localhost:3000/breeds/';
+  private readonly _baseUrl = `${environment.apiUrl}/breeds/`;
   private _httpClient = inject(HttpClient);
 
 
