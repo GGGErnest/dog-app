@@ -1,14 +1,14 @@
-<app-top-header>
+<app-top-header data-cy="top-header">
   <ng-container ngProjectAs="header-left-content">
-    <a routerLink="/home">
+    <a data-cy="logo" routerLink="/home">
       <img src="assets/icons/logo-96.png" alt="">
     </a>
   </ng-container>
   <ng-container ngProjectAs="header-center-content">
-    <a mat-button routerLinkActive="active" routerLink="/home">
+    <a data-cy="home-link" mat-button routerLinkActive="active" routerLink="/home">
       Home
     </a>
-    <a mat-button routerLinkActive="active" routerLink="/breeds">
+    <a data-cy="breeds-link" mat-button routerLinkActive="active" routerLink="/breeds">
       Breeds
     </a>
   </ng-container>
@@ -16,25 +16,25 @@
   </ng-container>
 
 </app-top-header>
-<main class="padding-content content-width">
+<main data-cy="main" class="padding-content content-width">
   <router-outlet />
 </main>
-<footer>
+<footer data-cy="footer">
   <nav class="footer-nav">
-    <a class="margin-content" routerLink="/about-us" mat-button>
+    <a data-cy="about-us-nav-link" class="margin-content" routerLink="/about-us" mat-button>
       About Us
     </a>
-    <a class="margin-content" routerLink="/contact-us" mat-button>
+    <a data-cy="contact-us" class="margin-content" routerLink="/contact-us" mat-button>
       Contact Us
     </a>
-    <a class="margin-content" routerLink="/terms-and-conditions" mat-button>
+    <a data-cy="terms-and-conditions" class="margin-content" routerLink="/terms-and-conditions" mat-button>
       Terms and Conditions
     </a>
-    <a class="margin-content" routerLink="/privacy-policy" mat-button>
+    <a data-cy="privacy-policy" class="margin-content" routerLink="/privacy-policy" mat-button>
       Privacy Policy
     </a>
   </nav>
-  <div class="rights-reserve">
+  <div data-cy="rights" class="rights-reserve">
     <p>
       DogBreeds is a property of Ernesto, LLC. © 2024 All Rights Reserved.
     </p>
