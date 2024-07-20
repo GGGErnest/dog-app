@@ -4,11 +4,12 @@ import express, { Express } from 'express';
 import helmet from 'helmet';
 import { routes } from './routes/routes';
 import { Settings } from './types/app-settings';
+import { ConsoleLogger } from './types/console-logger';
 
 const app: Express = express();
 
 const corsOptions = {
-	origin: '*', // replace [DOCKER_HOST_IP] with the actual IP
+	origin: '*',
 	optionsSuccessStatus: 200
 }
 
@@ -19,5 +20,5 @@ app.use(express.json());
 
 app.use(routes);
 app.listen(Settings.port, 'localhost', () => {
-	console.log(`Server listening on port ${Settings.port}`)
+	ConsoleLogger.instance.info(`Server listening on port ${Settings.port}`);
 })

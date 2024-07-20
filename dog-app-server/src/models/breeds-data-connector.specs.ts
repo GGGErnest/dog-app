@@ -6,7 +6,7 @@ import { ConsoleLogger } from '../../dist/types/console-logger';
 import { DataConnector } from '../../dist/types/interfaces/cache-data-connectors';
 import { Logger } from '../../dist/types/interfaces/logger';
 import { AllValue } from '../../dist/types/interfaces/model';
-import { fakeFetchResponse, MOCK_DATA_RESPONSE } from '../../test/data-connector-test-data';
+import { fakeFetchResponse, MOCK_DATA_RESPONSE } from './data-connector-test-data.ts';
 
 describe('BreedDataConnector', () => {
 

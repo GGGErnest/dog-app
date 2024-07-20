@@ -13,7 +13,7 @@ import { MemoryCache } from './memory-cache';
 export class BreedModel implements Model<Breed> {
 	private readonly _entityId = 'breed';
 
-	constructor(private readonly _dataConnector: DataConnector = new BreedDataConnector(), private _cache: Cache = MemoryCache.instance,
+	constructor(private readonly _dataConnector: DataConnector = new BreedDataConnector(), private readonly _cache: Cache = MemoryCache.instance,
     private readonly _logger: Logger = ConsoleLogger.instance) {
 		this._cache.registerConnector(this._entityId, this._dataConnector)
 	}

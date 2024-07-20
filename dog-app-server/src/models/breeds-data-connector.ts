@@ -71,7 +71,6 @@ export class BreedDataConnector implements DataConnector {
 			}
 
 		} catch (error) {
-			// TODO: add error handling here, log the error with the logger, something
 			this._logger.error('BreedDataConnector _getBreedImages', error);
 		}
 
@@ -122,7 +121,7 @@ export class BreedDataConnector implements DataConnector {
 
 			if (result.status === 'success') {
 				const breed: Breed = {
-					id: id,
+					id,
 				};
 
 				if (result.message.length > 0) {
