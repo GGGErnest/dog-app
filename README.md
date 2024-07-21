@@ -8,20 +8,19 @@ Before you begin, ensure you have the following installed:
 
 - Node.js (latest LTS version recommended)
 - npm (comes with Node.js)
-- Angular CLI (`npm install -g @angular/cli`)
 
 ## Project Structure
 
 ```
 dog-app/
-├── frontend/     # Angular application
-├── backend/      # Express.js server
+├── dog-app/     # Angular application
+├── dog-app-server/      # Express.js server
 └── README.md     # This file
 ```
 
-## Setting Up the Frontend (Angular App)
+## Setting Up the Web App (Angular App)
 
-1. Navigate to the frontend directory:
+1. Navigate to the dog-app directory:
 
    ```
    cd dog-app
@@ -33,10 +32,12 @@ dog-app/
    npm install
    ```
 
-3. Start the development server:
+3. The backend uses environment variables. Make sure to set up a `.env` file in the dog-app-server directory with the necessary configurations. There is a template provided for guidance.
+
+4. Start the development server:
 
    ```
-   ng start
+   npm run start
    ```
 
    The application will be available at `http://localhost:4200/`.
@@ -47,7 +48,7 @@ dog-app/
 - Run unit tests: `npm test`
 - Run end-to-end tests: `npm run e2e`
 
-## Setting Up the Backend (Express.js Server)
+## Setting Up the Server (Express.js Server)
 
 1. Navigate to the dog-app-server directory:
 
@@ -102,11 +103,6 @@ Run `npm run build` in the dog-app directory. The build artifacts will be stored
 ### Express Server
 
 Run `npm run build` in the backend directory. The compiled JavaScript files will be output to the `dist/` directory.
-
-## Additional Notes
-
-- The backend uses environment variables. Make sure to set up a `.env` file in the dog-app-server directory with the necessary configurations. There is a template provided for guidance
-- The backend uses Sinon for mocking in tests. Refer to Sinon documentation if you need to write or modify tests.
 
 ## License
 

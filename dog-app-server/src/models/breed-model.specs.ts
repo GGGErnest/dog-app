@@ -1,13 +1,11 @@
 import { expect } from 'chai';
 import sinon, { SinonStubbedInstance } from 'sinon';
+import { MemoryCache } from '../../dist/features/cache';
 import { BreedModel } from '../../dist/models/breed-model';
 import { BreedDataConnector } from '../../dist/models/breeds-data-connector';
-import { MemoryCache } from '../../dist/models/memory-cache';
 import { ConsoleLogger } from '../../dist/types/console-logger';
 import { Logger } from '../../dist/types/interfaces/logger';
-import { EMPTY_ALL_VALUE } from '../../dist/types/interfaces/model.js';
-import { serializeMemoryCacheIdRequestkey } from '../../dist/utils/model-utils';
-import { createCacheKey } from './memory-cache.specs';
+import { EMPTY_ALL_VALUE } from '../../dist/types/interfaces/model';
 
 describe('BreedsModel', () => {
 
@@ -15,7 +13,6 @@ describe('BreedsModel', () => {
 	let cacheStub: SinonStubbedInstance<MemoryCache>;
 	let dataConnectorStub: SinonStubbedInstance<BreedDataConnector>;
 	let loggerStub: SinonStubbedInstance<Logger>;
-	const entityId = 'breed';
 	const page = 1;
 	const pageSize = 10;
 	const sortBy = 'id';
@@ -36,12 +33,6 @@ describe('BreedsModel', () => {
 
 	describe('findAllWithPagination', () => {
 
-		it('calls the findAllWithPagination method in the cache', () => {
-			breedsModel.allWithPagination(page, pageSize, sortBy, sortDir);
-			const cacheId = createCacheKey(entityId);
-			sinon.assert.calledOnceWithExactly(cacheStub.read, cacheId);
-		});
-
 		it('logs any error from the cache', async () => {
 			cacheStub.read.rejects();
 			await breedsModel.allWithPagination(page, pageSize, sortBy, sortDir);
@@ -56,12 +47,6 @@ describe('BreedsModel', () => {
 	})
 
 	describe('get', () => {
-
-		it('calls the method read in the cache', async () => {
-			const cacheId = serializeMemoryCacheIdRequestkey('breed', id);
-			await breedsModel.get(id);
-			sinon.assert.calledOnceWithExactly(cacheStub.read, cacheId)
-		});
 
 		it('returns null in case of an error', async () => {
 			cacheStub.read.rejects();

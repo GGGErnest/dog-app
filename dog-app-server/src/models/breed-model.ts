@@ -1,19 +1,19 @@
 import { Breed } from '../types/breed';
 import { ConsoleLogger } from '../types/console-logger';
 import { SortDir } from '../types/data';
-import { Cache } from '../types/interfaces/cache';
-import { DataConnector } from '../types/interfaces/cache-data-connectors';
 import { Logger } from '../types/interfaces/logger';
 import { AllValue, EMPTY_ALL_VALUE, EMPTY_GET_VALUE, Model } from '../types/interfaces/model';
-import { converPageAndPageSizeToStartAndEndFormat, serializeMemoryCacheIdRequestkey, serializeMemoryCacheRangeRequestKey } from '../utils/model-utils';
 import { BreedDataConnector } from './breeds-data-connector';
-import { MemoryCache } from './memory-cache';
-
+import { Cache, DataConnector, MemoryCache, serializeMemoryCacheRangeRequestKey, serializeMemoryCacheIdRequestkey } from '../features/cache/index';
+import { Settings } from '../types/app-settings';
+import { converPageAndPageSizeToStartAndEndFormat } from '../utils/model-utils'
 
 export class BreedModel implements Model<Breed> {
 	private readonly _entityId = 'breed';
 
-	constructor(private readonly _dataConnector: DataConnector = new BreedDataConnector(), private readonly _cache: Cache = MemoryCache.instance,
+	constructor(private readonly _dataConnector: DataConnector = new BreedDataConnector(),
+    private readonly _cache: Cache = MemoryCache.getInstance(Settings.cacheExpiresAfterMinutes,
+    	Settings.cacheLimit, Settings.cacheOldItemsThresholdHours, Settings.cacheCleaningFrequency),
     private readonly _logger: Logger = ConsoleLogger.instance) {
 		this._cache.registerConnector(this._entityId, this._dataConnector)
 	}
@@ -40,5 +40,4 @@ export class BreedModel implements Model<Breed> {
 			return EMPTY_GET_VALUE;
 		}
 	}
-
 }

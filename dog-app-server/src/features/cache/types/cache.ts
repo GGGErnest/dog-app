@@ -1,7 +1,7 @@
-import { SortDir } from '../data';
-import { DataConnector } from './cache-data-connectors';
+import { DataConnector, SortDir } from './cache-data-connectors';
 
 export interface Cache {
+  cleanCache(): void;
   read(dataId: SerializedCacheKey): Promise<unknown>;
   registerConnector(connectorId: string, connector: DataConnector): void;
 }

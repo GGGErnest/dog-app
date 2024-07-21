@@ -5,7 +5,7 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { map, merge, startWith, switchMap } from 'rxjs';
-import { Breed, Subbreed } from '../../models/breed';
+import { Breed } from '../../models/breed';
 import { BreedsService } from '../../services/breeds.service';
 import { GetAllReturValue } from '../../types/api/types';
 import { NgFor, NgIf } from '@angular/common';
@@ -33,8 +33,7 @@ export class BreedListControllerComponent implements AfterViewInit {
   public paginator = viewChild.required(MatPaginator);
   public sort = viewChild.required(MatSort);
 
-  public extractSubbreeds(subbreeds: Subbreed[]): string[] {
-    console.log(subbreeds);
+  public extractSubbreeds(subbreeds: Breed[]): string[] {
     return subbreeds.map((subbreed) => subbreed.id);
   }
 

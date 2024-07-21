@@ -27,8 +27,9 @@ export class ContactUsControllerComponent {
 
   onSubmit() {
     if (this.contactForm.valid) {
-      this._renotificationService.message('Message sent successfully!');
+      this._renotificationService.message('Message sent!');
       this.contactForm.reset();
+      return;
     }
 
     this._renotificationService.error('Sorry, fill all the required field');

@@ -1,11 +1,7 @@
 export type Breed = {
   id: string;
-  subbreeds?: Subbreed[];
+  subbreeds?: Breed[];
   imagesUrl?: string[];
 }
 
-export type Subbreed = {
-  id: string;
-  imagesUrl?: string[];
-}
 

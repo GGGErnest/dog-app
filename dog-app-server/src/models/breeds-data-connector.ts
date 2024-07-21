@@ -1,11 +1,10 @@
-import { Breed, Subbreed } from '../types/breed';
+import { DataConnector } from '../features/cache';
+import { Breed } from '../types/breed';
 import { ConsoleLogger } from '../types/console-logger';
 import { SortDir } from '../types/data';
-import { DataConnector } from '../types/interfaces/cache-data-connectors';
 import { Logger } from '../types/interfaces/logger';
 import { AllValue } from '../types/interfaces/model';
 import { isPromiseSettledResultFulfilled } from '../utils/type-guards';
-
 
 export type AllBreedsResponse = {
   message: {
@@ -27,7 +26,7 @@ export type SubbreedImagesResponse = {
 export function parseAllSubBreedsResponse(response: AllBreedsResponse): Breed[] {
 	const breeds: Breed[] = [];
 	Object.keys(response.message).forEach((breed: string) => {
-		const subbreeds: Subbreed[] = response.message[breed].map<Subbreed>((id: string) => { return { id } });
+		const subbreeds: Breed[] = response.message[breed].map<Breed>((id: string) => { return { id } });
 		breeds.push({ id: breed, subbreeds })
 	});
 
@@ -35,7 +34,7 @@ export function parseAllSubBreedsResponse(response: AllBreedsResponse): Breed[] 
 
 }
 
-function applySort(first: Breed, second: Breed, sortByKey: 'id', sortDir: SortDir) {
+function applySort(first: Breed, second: Breed, sortDir: SortDir) {
 	return breedsComparation(first.id, second.id, sortDir)
 }
 
@@ -92,7 +91,7 @@ export class BreedDataConnector implements DataConnector {
 				const breedsInTheRange: AllValue<Breed> = { data: [], total: 0 };
 				const breeds = parseAllSubBreedsResponse(result);
 
-				breedsInTheRange.data = breeds.sort((first: Breed, second: Breed) => applySort(first, second, 'id', sortDir))
+				breedsInTheRange.data = breeds.sort((first: Breed, second: Breed) => applySort(first, second, sortDir))
 					.filter((_value, index) => index >= start && index <= end);
 
 				breedsInTheRange.total = breeds.length;
@@ -127,13 +126,13 @@ export class BreedDataConnector implements DataConnector {
 				if (result.message.length > 0) {
 					const subbreedsPromises = result.message.map(async (subbreed) => {
 						const imagesUrl = await this._getBreedImages(id, subbreed);
-						return { id: subbreed, subbreeds: subbreed, imagesUrl } as Subbreed;
+						return { id: subbreed, imagesUrl } as Breed;
 					});
 
 					const subbreedsPromiseSettled = await Promise.allSettled(subbreedsPromises);
 
 					const fulfilledPromises = subbreedsPromiseSettled.filter(isPromiseSettledResultFulfilled);
-					const subbreeds = fulfilledPromises.map<Subbreed>((settledPromised) => settledPromised.value);
+					const subbreeds = fulfilledPromises.map<Breed>((settledPromised) => settledPromised.value);
 					breed.subbreeds = subbreeds;
 					return breed;
 				}
