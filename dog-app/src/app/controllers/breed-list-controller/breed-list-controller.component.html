@@ -18,7 +18,7 @@
   <ng-container matColumnDef="actions">
     <th mat-header-cell *matHeaderCellDef>Actions</th>
     <td mat-cell *matCellDef="let breed">
-      <a mat-button data-cy="breeds-detail-link" [routerLink]="['/breeds',breed.id]"
+      <a mat-button data-cy="breeds-detail-link" [attr.data-cy-breed]="breed.id" [routerLink]="['/breeds',breed.id]"
         matTooltip="See details of this breed">Details</a>
     </td>
   </ng-container>
@@ -26,5 +26,5 @@
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
-<mat-paginator [length]="total()" [pageSizeOptions]="[10, 20, 30, 40,50]"
+<mat-paginator data-cy="table-pagination" [length]="total()" [pageSizeOptions]="[10, 20, 30, 40,50]"
   aria-label="Select page of Breeds search results"></mat-paginator>

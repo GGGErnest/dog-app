@@ -1,4 +1,4 @@
-<gallery [items]="images()"></gallery>
-<button mat-icon-button role="button" (click)="onCloseButton()">
+<gallery data-cy="gallery" [items]="images()"></gallery>
+<button data-cy="gallery-close-btn" mat-icon-button role="button" (click)="onCloseButton()">
   <mat-icon>close</mat-icon>
 </button>

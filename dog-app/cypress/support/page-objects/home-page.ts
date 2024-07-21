@@ -7,6 +7,11 @@ export class HomePage {
     runAllPageIntegrityChecks()
   }
 
+  navigateToBreedsPage() {
+    cy.get(createCypressSelector('breeds-link')).should('exist').click()
+    cy.location('pathname').should('contain', 'breeds')
+  }
+
   hasMainInformationText() {
     const mainContent = cy.get(createCypressSelector('main'))
     mainContent.should('exist')
