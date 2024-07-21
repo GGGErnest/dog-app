@@ -15,13 +15,29 @@ export class ConsoleLogger implements Logger {
 	}
 
 	info(message: string, data?: unknown): void {
-		console.info(message, data);
+		if (data) {
+			console.info(message, data);
+			return;
+		}
+
+		console.info(message);
 	}
 	warn(message: string, data?: unknown): void {
+		if (data) {
+			console.warn(message, data);
+			return;
+		}
+
 		console.warn(message, data);
 	}
 	error(message: string, data?: unknown): void {
+		if (data) {
+			console.error(message, data);
+			return;
+		}
+
 		console.error(message, data);
+
 	}
 
 }

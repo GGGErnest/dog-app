@@ -1,6 +1,6 @@
 import { NgFor, NgIf, TitleCasePipe } from '@angular/common';
 import { Component, computed, inject, input } from '@angular/core';
-import { Breed, Subbreed } from '../../models/breed';
+import { Breed } from '../../models/breed';
 import { MatCardModule } from '@angular/material/card';
 import { Dialog } from '@angular/cdk/dialog';
 import { MatButtonModule } from '@angular/material/button';
@@ -8,7 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ImageGalleryContainerComponent } from '../../ui/image-gallery-container/image-gallery-container.component';
 import { GalleryData, ImageGalleryComponent } from '../../ui/image-gallery/image-gallery.component';
 
-function parseSubbreedsToGalleryImages(subbreeds?: Subbreed[]): GalleryData | undefined {
+function parseSubbreedsToGalleryImages(subbreeds?: Breed[]): GalleryData | undefined {
   let galleyData: GalleryData = {};
   if (!subbreeds) {
     return undefined;

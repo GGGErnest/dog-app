@@ -3,10 +3,10 @@ import sinon, { SinonStub, SinonStubbedInstance } from 'sinon';
 import { BreedDataConnector } from '../../dist/models/breeds-data-connector';
 import { Breed } from '../../dist/types/breed.js';
 import { ConsoleLogger } from '../../dist/types/console-logger';
-import { DataConnector } from '../../dist/types/interfaces/cache-data-connectors';
+import { DataConnector } from '../../dist/features/cache';
 import { Logger } from '../../dist/types/interfaces/logger';
 import { AllValue } from '../../dist/types/interfaces/model';
-import { fakeFetchResponse, MOCK_DATA_RESPONSE } from '../../test/data-connector-test-data';
+import { fakeFetchResponse, MOCK_DATA_RESPONSE } from './data-connector-test-data';
 
 describe('BreedDataConnector', () => {
 
@@ -74,7 +74,7 @@ describe('BreedDataConnector', () => {
 			assert.deepEqual(result, undefined);
 		})
 
-		it('the results are sorted and the right sort direction is applied', async () => {
+		it('the results are sorted correctly depending of othe sort direction', async () => {
 			httpClientStub.resolves(fakeFetchResponse(MOCK_DATA_RESPONSE));
 			const result = await dataConnector.getRange(0, 2, 'id', 'asc');
 			const mockData: AllValue<Breed> = {
@@ -96,6 +96,23 @@ describe('BreedDataConnector', () => {
 			};
 
 			assert.deepEqual(result, mockData)
+
+			const result2 = await dataConnector.getRange(0, 2, 'id', 'desc');
+			const mockData2: AllValue<Breed> = {
+				data: [
+					{
+						id: 'affenpinscher', subbreeds: [
+						],
+					},
+					{
+						id: 'african', subbreeds: [
+						],
+					},
+					{ id: 'airedale', subbreeds: [], },
+				],
+				total: 59
+			};
+			assert.deepEqual(result2, mockData2)
 		})
 	})
 });
