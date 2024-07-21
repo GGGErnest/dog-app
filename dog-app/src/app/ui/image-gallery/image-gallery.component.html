@@ -11,7 +11,8 @@
     </p>
   </mat-card-content>
   <mat-card-actions>
-    <button data-cy="gallery-button" mat-button role="button" (click)="onImageGalleyClick(galleryName)">Gallery</button>
+    <button data-cy="gallery-button" mat-button role="button" (click)="onImageGalleyClick(galleryName)">Gallery
+      (+{{currentGallery.images.length}} Images)</button>
   </mat-card-actions>
 </mat-card>
 }

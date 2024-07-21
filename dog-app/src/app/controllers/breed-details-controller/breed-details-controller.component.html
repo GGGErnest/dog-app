@@ -28,7 +28,9 @@
       </p>
     </mat-card-content>
     <mat-card-actions>
-      <button data-cy="gallery-button" mat-button role="button" (click)="onImageGalleyClick()">Gallery</button>
+      <button data-cy="gallery-button" mat-button role="button" (click)="onImageGalleyClick()">
+        Gallery (+{{breed().imagesUrl?.length}} Images)
+      </button>
     </mat-card-actions>
   </mat-card>
   }
