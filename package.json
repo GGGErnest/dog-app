@@ -1,0 +1,15 @@
+{
+  "name": "dog-app",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "dog-app-server",
+    "dog-app"
+  ],
+  "scripts": {
+    "start": "concurrently \"npm --prefix dog-app-server run start\" \"npm --prefix dog-app start\""
+  },
+  "devDependencies": {
+    "concurrently": "8.2.2"
+  }
+}
