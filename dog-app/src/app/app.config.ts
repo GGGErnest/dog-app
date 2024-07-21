@@ -8,13 +8,14 @@ import { routes } from './app.routes';
 import { errorHandlingInterceptor } from './services/interceptors/error-handling.interceptor';
 import { ConsoleLoggerServise } from './services/logging.service';
 import { APP_LOGGER } from './types/logger';
+import { environment } from '../environments/environment';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideAnimationsAsync(),
     provideHttpClient(withInterceptors([errorHandlingInterceptor])),
-    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 2500 } },
+    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: environment.notificationsDuration } },
     { provide: APP_LOGGER, useExisting: ConsoleLoggerServise }
   ],
 };
