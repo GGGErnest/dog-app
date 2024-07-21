@@ -11,13 +11,13 @@ import { PrivacyPolicyRouteComponent } from './routes/privacy-policy-route/priva
 import { TermsAndConditionsRouteComponent } from './routes/terms-and-conditions-route/terms-and-conditions-route.component';
 
 export const routes: Routes = [
-  { path: 'home', component: HomeRouteComponent },
-  { path: 'about-us', component: AboutUsRouteComponent },
-  { path: 'contact-us', component: ContactUsRouteComponent },
-  { path: 'privacy-policy', component: PrivacyPolicyRouteComponent },
-  { path: 'terms-and-conditions', component: TermsAndConditionsRouteComponent },
-  { path: 'breeds', component: BreedListRouteComponent, resolve: { breeds: breedsResolver } },
-  { path: 'breeds/:id', component: BreedDetailRouteComponent, resolve: { breed: breedResolver } },
+  { path: 'home', component: HomeRouteComponent, data: { title: 'Home' } },
+  { path: 'about-us', component: AboutUsRouteComponent, data: { title: 'About Us' } },
+  { path: 'contact-us', component: ContactUsRouteComponent, data: { title: 'Contact Us' } },
+  { path: 'privacy-policy', component: PrivacyPolicyRouteComponent, data: { title: 'Privacy Policy' } },
+  { path: 'terms-and-conditions', component: TermsAndConditionsRouteComponent, data: { title: 'Terms and Conditions' } },
+  { path: 'breeds', component: BreedListRouteComponent, data: { title: 'Breeds' }, resolve: { breeds: breedsResolver } },
+  { path: 'breeds/:id', component: BreedDetailRouteComponent, data: { title: 'Breeds Details' }, resolve: { breed: breedResolver } },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
-  { path: '**', component: NotFoundRouteComponent },
+  { path: '**', component: NotFoundRouteComponent, data: { title: 'Page not found' } },
 ];
