@@ -13,5 +13,4 @@ describe('User jorney tests', () => {
     breedsPage.navigateToBreedDetails()
     breedsDetail.openGallery();
   })
-
 })
