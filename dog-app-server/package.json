@@ -22,6 +22,7 @@
     "cover": "nyc npm run test",
     "cover:check": "nyc --check-coverage --reporter=lcov npm run test",
     "lint": "eslint --fix",
+    "initenv": "cp .env_template .env",
     "start": "nodemon ./src/index.ts",
     "test": "mocha"
   },
