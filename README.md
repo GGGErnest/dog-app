@@ -24,60 +24,44 @@ dog-app/
 └── LICENSE              # License file
 ```
 
-## Setting Up the Server (Express.js Server)
+## Quick start
 
-1. Navigate to the dog-app-server directory:
-
-   ```
-   cd dog-app-server
-   ```
-
-2. Install dependencies:
+1. Install the dependencies
 
    ```
    npm install
    ```
 
-3. Set up the environment variables:
-
-   - Locate the `.env_template` file in the dog-app-server directory.
-   - Make a copy of this file and rename it to `.env`.
-   - Open the `.env` file and adjust any configurations as needed.
-
-4. Start the development server:
+2. Run the following commands
 
    ```
-   npm run start
+   npm run intienv && npm run start
    ```
 
-   The server will start, and you can access it at `http://localhost:3000/` (or whichever port you've configured).
+The first of the two previous commands creates a '.env' file from the '.env_template' file provided with some default configurations required by the server to run. These are the default settings.
 
-### Additional Express Server Commands
+```
+ PORT=3000
+ CACHE_EXPIRES_AFTER_MINUTES=240
+ CACHE_LIMIT=3000
+ CACHE_OLD_ITEMS_THRESHOLD_HOURS=3
+ CACHE_CLEANING_FREQUENCY_MS=10000
+ DEFAULT_PAGINATION_SIZE=10
+ DEFAULT_SORT_DIR="desc"
+```
+
+**Be aware that running 'npm run intienv' command will replace the '.env' file on the server root folder, therefore is recommended to be executed only when setting up the project for first time.**
+
+**The Angular app uses 'environments' files to define the URL to where to reach the Server, so in case the server is not running on the default port(3000 by default) make sure to adjust the URL accordingly in the file './dog-app/src/environments/environment.development.ts'.**
+
+The second command will run both apps(Web App and Server) in parallel. In addition, the browser will open automatically at the configured host of the Web App.
+
+## Additional commands
+
+### Express Server Commands
 
 - Build the server: `npm run build`
 - Run tests: `npm test`
-
-## Setting Up the Web App (Angular App)
-
-1. Navigate to the dog-app directory:
-
-   ```
-   cd dog-app
-   ```
-
-2. Install dependencies:
-
-   ```
-   npm install
-   ```
-
-3. Start the development server:
-
-   ```
-   npm run start
-   ```
-
-   The application will be available at `http://localhost:4200/`.
 
 ### Additional Angular App Commands
 
@@ -112,7 +96,7 @@ Run `npm run build` in the backend directory. The compiled JavaScript files will
 
 ### Angular App
 
-Run `npm run build` in the dog-app directory. The build artifacts will be stored in the `dist/` directory.
+Run `npm run build --configuration production` in the dog-app directory. The build artifacts will be stored in the `dist/` directory. The environment file used will be the one placed in './dog-app/src/environments/environment.ts'
 
 ## License
 
