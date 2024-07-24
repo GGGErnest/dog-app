@@ -1,7 +1,6 @@
 @use 'SASS:map';
 @use '@angular/material' as mat;
 
-
 @mixin color($theme) {
 
   app-top-header a.active {
@@ -12,8 +11,6 @@
   footer {
     border-top: 5px solid mat.get-theme-color($theme, primary);
   }
-
-  footer a {}
 }
 
 @mixin theme($theme) {
