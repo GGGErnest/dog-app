@@ -1,4 +1,4 @@
-import { DataConnector, SortDir } from './cache-data-connectors';
+import { DataConnector, DataConnectorAction } from './cache-data-connectors';
 
 export interface Cache {
   cleanCache(): void;
@@ -14,18 +14,8 @@ export interface CachedEntity<Type> {
 }
 
 export interface CacheKey {
-  entityName: string;
-}
-
-export interface MemoryCacheRangeRequestKey extends CacheKey {
-  sort: string,
-  sortDir: SortDir,
-  start: number;
-  end: number;
-}
-
-export interface MemoryCacheIdRequestkey extends CacheKey {
-  id: string;
+  entityId: string;
+  action: DataConnectorAction;
 }
 
 export interface MemoryCacheTotalAmountRequestkey extends CacheKey {
@@ -34,10 +24,3 @@ export interface MemoryCacheTotalAmountRequestkey extends CacheKey {
 
 export type SerializedCacheKey = string;
 
-export function isMemoryCacheRangeRequestKey(cacheKey: CacheKey): cacheKey is MemoryCacheRangeRequestKey {
-	return 'start' in cacheKey && 'end' in cacheKey;
-}
-
-export function isMemoryCacheIdRequestkey(cacheKey: CacheKey): cacheKey is MemoryCacheIdRequestkey {
-	return 'id' in cacheKey;
-} 

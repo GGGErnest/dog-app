@@ -1,29 +1,13 @@
-import { DataConnector } from '../features/cache';
+import { DataConnector, DataConnectorAction } from '../features/cache';
 import { Breed } from '../types/breed';
 import { ConsoleLogger } from '../types/console-logger';
 import { SortDir } from '../types/data';
+import { AllBreedsResponse, SubbreedImagesResponse, AllSubBreedsResponse, isDataConnectorSingleAction, isDataConnectorRangeAction } from '../types/interfaces/breed-data-connector';
 import { Logger } from '../types/interfaces/logger';
 import { AllValue } from '../types/interfaces/model';
 import { isPromiseSettledResultFulfilled } from '../utils/type-guards';
 
-export type AllBreedsResponse = {
-  message: {
-    [key: string]: string[]
-  }
-  status: string;
-};
-
-export type AllSubBreedsResponse = {
-  message: string[]
-  status: string;
-}
-
-export type SubbreedImagesResponse = {
-  message: string[],
-  status: string,
-}
-
-export function parseAllSubBreedsResponse(response: AllBreedsResponse): Breed[] {
+function parseAllSubBreedsResponse(response: AllBreedsResponse): Breed[] {
 	const breeds: Breed[] = [];
 	Object.keys(response.message).forEach((breed: string) => {
 		const subbreeds: Breed[] = response.message[breed].map<Breed>((id: string) => { return { id } });
@@ -47,10 +31,12 @@ function breedsComparation(first: string, second: string, sortDir: string): numb
 
 export class BreedDataConnector implements DataConnector {
 	private readonly _baseUrl = 'https://dog.ceo/api/';
-	private readonly _defaultAmountOfImagesToRetrive = 20;
-	constructor(private readonly _httpClient = fetch, private readonly _logger: Logger = ConsoleLogger.instance) {
 
+	private readonly _defaultAmountOfImagesToRetrive = 20;
+
+	constructor(private readonly _httpClient = fetch, private readonly _logger: Logger = ConsoleLogger.instance) {
 	}
+
 
 	private async _getBreedImages(breed: string, subbreed?: string): Promise<string[]> {
 		let images: string[] = [];
@@ -61,7 +47,7 @@ export class BreedDataConnector implements DataConnector {
 			const response = await this._httpClient(url);
 
 			if (response.ok) {
-				const result: SubbreedImagesResponse = await response.json() as SubbreedImagesResponse;
+				const result = await response.json() as SubbreedImagesResponse;
 				if (result.status === 'success') {
 					// There is a weird case in the Dog API that if a breed doesn't have any subbreed it will return a single 
 					// image from the breed but not in an array
@@ -76,7 +62,7 @@ export class BreedDataConnector implements DataConnector {
 		return images;
 	}
 
-	public async getRange(start: number, end: number, _sortByKey: keyof Breed, sortDir: SortDir): Promise<AllValue<Breed> | undefined> {
+	private async _getRange(start: number, end: number, _sortByKey: keyof Breed, sortDir: SortDir): Promise<AllValue<Breed> | undefined> {
 		const url = `${this._baseUrl}breeds/list/all`;
 
 		try {
@@ -103,11 +89,13 @@ export class BreedDataConnector implements DataConnector {
 
 		} catch (error) {
 
+			this._logger.error('BreedDataConnector getRange', error);
+
 			return undefined;
 		}
 	}
 
-	public async getSingle(id: string): Promise<Breed | undefined> {
+	private async _getSingle(id: string): Promise<Breed | undefined> {
 		const url = `${this._baseUrl}breed/${id}/list`;
 
 		try {
@@ -145,8 +133,23 @@ export class BreedDataConnector implements DataConnector {
 
 			return undefined;
 		} catch (error) {
+
+			this._logger.error('BreedDataConnector getSingle', error);
+
 			return undefined;
 		}
 	}
 
+	public async read(action: DataConnectorAction): Promise<unknown | undefined> {
+		console.log('BreedDataConnector read', action);
+		if (isDataConnectorSingleAction(action)) {
+			return this._getSingle(action.id);
+		}
+
+		if (isDataConnectorRangeAction(action)) {
+			return this._getRange(action.start, action.end, action.sort, action.sortDir);
+		}
+
+		return undefined
+	}
 }
