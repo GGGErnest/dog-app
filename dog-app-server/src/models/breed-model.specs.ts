@@ -2,7 +2,6 @@ import { expect } from 'chai';
 import sinon, { SinonStubbedInstance } from 'sinon';
 import { MemoryCache } from '../../dist/features/cache';
 import { BreedModel } from '../../dist/models/breed-model';
-import { BreedDataConnector } from '../../dist/models/breeds-data-connector';
 import { ConsoleLogger } from '../../dist/types/console-logger';
 import { Logger } from '../../dist/types/interfaces/logger';
 import { EMPTY_ALL_VALUE } from '../../dist/types/interfaces/model';
@@ -11,7 +10,6 @@ describe('BreedsModel', () => {
 
 	let breedsModel: BreedModel;
 	let cacheStub: SinonStubbedInstance<MemoryCache>;
-	let dataConnectorStub: SinonStubbedInstance<BreedDataConnector>;
 	let loggerStub: SinonStubbedInstance<Logger>;
 	const page = 1;
 	const pageSize = 10;
@@ -22,9 +20,8 @@ describe('BreedsModel', () => {
 
 	beforeEach(() => {
 		cacheStub = sinon.createStubInstance(MemoryCache);
-		dataConnectorStub = sinon.createStubInstance(BreedDataConnector);
 		loggerStub = sinon.createStubInstance(ConsoleLogger);
-		breedsModel = new BreedModel(dataConnectorStub, cacheStub, loggerStub);
+		breedsModel = new BreedModel(cacheStub, loggerStub);
 	})
 
 	it('should create an instance using its constructor', () => {
@@ -33,7 +30,7 @@ describe('BreedsModel', () => {
 
 	describe('findAllWithPagination', () => {
 
-		it('logs any error from the cache', async () => {
+		it('logs any error in case they occur', async () => {
 			cacheStub.read.rejects();
 			await breedsModel.allWithPagination(page, pageSize, sortBy, sortDir);
 			sinon.assert.calledOnce(loggerStub.error);
