@@ -4,7 +4,6 @@
   "extension": [
     ".js",
     ".ts",
-    ".tsx"
   ],
   "functions": 100,
   "include": [

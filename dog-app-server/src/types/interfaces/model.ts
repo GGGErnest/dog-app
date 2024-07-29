@@ -1,4 +1,4 @@
-export type AllValue<Type> = {
+export interface AllValue<Type> {
   data: Type[],
   total: number
 }
