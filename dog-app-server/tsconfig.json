@@ -20,16 +20,16 @@
     "noUnusedLocals": true,
     "noImplicitReturns": true,
     "moduleResolution": "node",
-    "typeRoots": [
-      "node_modules/@types",
-      "types"
+    "types": [
+      "./node_modules/@types/node",
+      "../node_modules/@types/mocha",
+      "../node_modules/@types/chai",
+      "../node_modules/@types/sinon",
     ],
     "esModuleInterop": true
   },
   "exclude": [
     "node_modules",
-    "test",
-    "types",
     "src/**/*.specs.ts"
   ]
 }
