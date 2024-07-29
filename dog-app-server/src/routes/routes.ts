@@ -4,5 +4,5 @@ import { BreedsRoutes } from './breeds-routes';
 const breedsRouter = new BreedsRoutes();
 export const routes = express.Router();
 
-routes.use(breedsRouter.baseUrl, breedsRouter.router)
+routes.use('/breeds', breedsRouter.router)
 

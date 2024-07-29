@@ -8,8 +8,6 @@ import { AllValue } from '../types/interfaces/model';
 
 export class BreedsRoutes {
 	private readonly _breedController = new BreedController();
-	baseUrl = '/breeds';
-
 
 	constructor(public router = express.Router(), private readonly _defaultPaginationSize = Settings.defaultPaginationSize,
     private readonly _defaultSortDir = Settings.defaultSortDir
@@ -36,6 +34,7 @@ export class BreedsRoutes {
 
 		if (breedId === null) {
 			res.send({ result: [], error: 'Wrong breed id' }).status(400)
+			return;
 		}
 
 		const result = await this._breedController.getById(breedId);
