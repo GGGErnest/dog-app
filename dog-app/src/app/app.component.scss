@@ -56,21 +56,18 @@ app-top-header a {
   }
 }
 
-/* Large devices (desktops, 1024px and up) */
 @media only screen and (min-width: 1024px) {
   .content-width {
     --content-width: 900px;
   }
 }
 
-/* Extra large devices (large desktops, 1200px and up) */
 @media only screen and (min-width: 1200px) {
   .content-width {
     --content-width: 1000px;
   }
 }
 
-/* XXLarge devices (larger desktops, 1440px and up) */
 @media only screen and (min-width: 1440px) {
   .content-width {
     --content-width: 1200px;
