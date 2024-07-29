@@ -30,6 +30,11 @@ footer {
   align-items: center;
 }
 
+footer nav {
+  display: flex;
+  text-align: center;
+}
+
 footer nav,
 div {
   width: var(--content-width);
@@ -37,7 +42,7 @@ div {
 
 footer,
 p {
-  font-size: 11px;
+  font-size: 0.7rem;
 }
 
 app-top-header a {
